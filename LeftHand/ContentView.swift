@@ -6,16 +6,42 @@
 //
 
 import SwiftUI
+import PencilKit
 
-struct ContentView: View {
-    var body: some View {
-        Text("Hello, world!")
-            .padding()
-    }
-}
+struct ContentView: View
+	{
+	@Environment(\.undoManager) private var undoManager
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+	@State private var canvasView = PKCanvasView()
+
+	var body: some View
+		{
+		VStack
+			{
+			HStack(spacing: 10)
+				{
+				Button("Clear")
+					{
+					canvasView.drawing = PKDrawing()
+					}
+				Button("Undo")
+					{
+					undoManager?.undo()
+					}
+				Button("Redo")
+					{
+					undoManager?.redo()
+					}
+				}
+			MyCanvas(canvasView: $canvasView)
+			}
+		}
+	}
+
+struct ContentView_Previews: PreviewProvider
+	{
+	static var previews: some View
+		{
+		ContentView()
+		}
+	}
