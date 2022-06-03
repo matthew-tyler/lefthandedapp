@@ -1,5 +1,7 @@
 /*
 	ContentView.swift
+
+	// https://www.hackingwithswift.com/books/ios-swiftui/how-to-combine-core-data-and-swiftui
 */
 
 import SwiftUI
@@ -9,12 +11,18 @@ struct ContentView: View
 	{
 	@Environment(\.undoManager) private var undoManager
 
+	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
+
 	@State private var canvasView = PKCanvasView()
 
 	var body: some View
 		{
 		VStack
 			{
+			List(writing)
+				{ instance in
+				Text(instance.type ?? "Unknown")
+				}
 			HStack(spacing: 10)
 				{
 				Button("Clear")

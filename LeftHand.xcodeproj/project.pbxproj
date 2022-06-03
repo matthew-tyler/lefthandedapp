@@ -12,6 +12,8 @@
 		49FA6C7728498EB3008F4F77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49FA6C7628498EB3008F4F77 /* Assets.xcassets */; };
 		49FA6C7A28498EB3008F4F77 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49FA6C7928498EB3008F4F77 /* Preview Assets.xcassets */; };
 		49FA6C8128498F02008F4F77 /* MyCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C8028498F02008F4F77 /* MyCanvas.swift */; };
+		49FA6C842849AD42008F4F77 /* Store.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C822849AD42008F4F77 /* Store.xcdatamodeld */; };
+		49FA6C862849AE42008F4F77 /* DataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C852849AE42008F4F77 /* DataContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		49FA6C7628498EB3008F4F77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		49FA6C7928498EB3008F4F77 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		49FA6C8028498F02008F4F77 /* MyCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCanvas.swift; sourceTree = "<group>"; };
+		49FA6C832849AD42008F4F77 /* Store.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Store.xcdatamodel; sourceTree = "<group>"; };
+		49FA6C852849AE42008F4F77 /* DataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,8 @@
 				49FA6C7228498EB2008F4F77 /* LeftHandApp.swift */,
 				49FA6C7428498EB2008F4F77 /* ContentView.swift */,
 				49FA6C8028498F02008F4F77 /* MyCanvas.swift */,
+				49FA6C822849AD42008F4F77 /* Store.xcdatamodeld */,
+				49FA6C852849AE42008F4F77 /* DataContainer.swift */,
 				49FA6C7628498EB3008F4F77 /* Assets.xcassets */,
 				49FA6C7828498EB3008F4F77 /* Preview Content */,
 			);
@@ -141,8 +147,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				49FA6C8128498F02008F4F77 /* MyCanvas.swift in Sources */,
+				49FA6C862849AE42008F4F77 /* DataContainer.swift in Sources */,
 				49FA6C7528498EB2008F4F77 /* ContentView.swift in Sources */,
 				49FA6C7328498EB2008F4F77 /* LeftHandApp.swift in Sources */,
+				49FA6C842849AD42008F4F77 /* Store.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +353,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		49FA6C822849AD42008F4F77 /* Store.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				49FA6C832849AD42008F4F77 /* Store.xcdatamodel */,
+			);
+			currentVersion = 49FA6C832849AD42008F4F77 /* Store.xcdatamodel */;
+			path = Store.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 49FA6C6728498EB2008F4F77 /* Project object */;
 }
