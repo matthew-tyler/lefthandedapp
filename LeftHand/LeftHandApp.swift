@@ -1,9 +1,6 @@
-//
-//  LeftHandApp.swift
-//  LeftHand
-//
-//  Created by andrew on 3/06/22.
-//
+/*
+	LeftHandApp.swift
+*/
 
 import SwiftUI
 

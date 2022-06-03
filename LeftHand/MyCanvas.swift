@@ -1,9 +1,6 @@
-//
-//  MyCanvas.swift
-//  LeftHand
-//
-//  Created by andrew on 3/06/22.
-//
+/*
+	MyCanvas.swift
+*/
 
 import Foundation
 import SwiftUI

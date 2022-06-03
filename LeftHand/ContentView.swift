@@ -1,9 +1,6 @@
-//
-//  ContentView.swift
-//  LeftHand
-//
-//  Created by andrew on 3/06/22.
-//
+/*
+	ContentView.swift
+*/
 
 import SwiftUI
 import PencilKit
