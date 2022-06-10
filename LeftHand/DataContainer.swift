@@ -11,7 +11,6 @@ import CoreData
 class DataController: ObservableObject {
     let container = NSPersistentContainer(name: "Store")
 
-
     init() {
     container.loadPersistentStores { description, error in
         if let error = error {

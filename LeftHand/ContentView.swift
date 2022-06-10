@@ -12,7 +12,7 @@ struct ContentView: View
 	@Environment(\.undoManager) private var undoManager
 
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
-
+	
 	@State private var canvasView = PKCanvasView()
 
 	var body: some View
