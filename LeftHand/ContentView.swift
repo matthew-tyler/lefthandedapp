@@ -10,10 +10,11 @@ import PencilKit
 struct ContentView: View
 	{
 	@Environment(\.undoManager) private var undoManager
-
+	@Environment(\.managedObjectContext) var moc
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
 	
 	@State private var canvasView = PKCanvasView()
+	@State var sequence : Int = 0
 
 	var body: some View
 		{
@@ -21,7 +22,14 @@ struct ContentView: View
 			{
 			List(writing)
 				{ instance in
-				Text(instance.type ?? "Unknown")
+				Button
+					{
+					try? canvasView.drawing = PKDrawing(data: instance.data!)
+					}
+				label:
+					{
+					Text(instance.type ?? "Unknown")
+					}
 				}
 			HStack(spacing: 10)
 				{
@@ -36,6 +44,15 @@ struct ContentView: View
 				Button("Redo")
 					{
 					undoManager?.redo()
+					}
+				Button("Save")
+					{
+					let actions = Writing(context: moc)
+					actions.id = UUID()
+					actions.type = "Saved " + (sequence as NSNumber).stringValue
+					sequence = sequence + 1
+					actions.data = canvasView.drawing.dataRepresentation()
+					try? moc.save()
 					}
 				Button("Show")
 					{
