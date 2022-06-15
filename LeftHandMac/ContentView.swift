@@ -8,55 +8,67 @@ import PencilKit
 struct ContentView: View
 	{
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
-	@State var pkDrawing : PKDrawing = PKDrawing()
+	@Environment(\.managedObjectContext) var moc
+
+	@State var drawing : PKDrawing = PKDrawing()
+	@State var pen_path : Writing = Writing()
 
 	var body: some View
 		{
-		VStack
+		ZStack
 			{
-			Button
+			Color.white.ignoresSafeArea()
+
+			VStack
 				{
-				for stroke in pkDrawing.strokes
+				HStack
 					{
-					print("\n\n\n\nCOORDINATES\n\n\n\n")
-					stroke.path.forEach
-						{ (point) in
-						let newPoint = PKStrokePoint(location: point.location,
-						timeOffset: point.timeOffset,
-						size: point.size,
-						opacity: point.opacity,
-						force: point.force,
-						azimuth: point.azimuth,
-						altitude: point.altitude)
-						print(newPoint)
-						}
-					}
-				}
-				label:
-					{
-					Text("Export")
-					}
-			HStack
-				{
-				List(writing)
-					{ instance in
-					Button
+					Button("Delete")
 						{
-						do
+						moc.delete(pen_path)
+						try? moc.save()
+						}
+					Spacer().frame(width: 50)
+					Button("Export")
+						{
+						for stroke in drawing.strokes
 							{
-							pkDrawing = try PKDrawing(data: instance.data!)
-							}
-						catch
-							{
-							print(error)
+							print("\n\n\n\nCOORDINATES\n\n\n\n")
+							stroke.path.forEach
+								{ (point) in
+								let newPoint = PKStrokePoint(location: point.location,
+								timeOffset: point.timeOffset,
+								size: point.size,
+								opacity: point.opacity,
+								force: point.force,
+								azimuth: point.azimuth,
+								altitude: point.altitude)
+								print(newPoint)
+								}
 							}
 						}
-						label:
-							{
-							Text(instance.type ?? "Unknown")
-							}
 					}
-				Image(nsImage: pkDrawing.image(from: pkDrawing.bounds, scale: 1))
+				Divider()
+				HStack
+					{
+					List(writing)
+						{ instance in
+						Text(instance.type ?? "Unknown").onTapGesture
+							{
+							do
+								{
+								pen_path = instance
+								drawing = try PKDrawing(data: pen_path.data!)
+								}
+							catch
+								{
+								print(error)
+								}
+							}
+						}
+					Divider()
+					Image(nsImage: drawing.image(from: drawing.bounds, scale: 1))
+					}
 				}
 			}
 		}

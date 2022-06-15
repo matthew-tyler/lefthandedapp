@@ -15,8 +15,7 @@ struct LeftHandApp: App
 		{
 		WindowGroup
 			{
-			ContentView()
-				.environment(\.managedObjectContext, dataController.container.viewContext)
+			ContentView().environment(\.managedObjectContext, dataController.container.viewContext)
 			}
 		}
 	}
