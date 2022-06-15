@@ -17,7 +17,6 @@ struct LeftHandApp: App
 			{
 			ContentView()
 				.environment(\.managedObjectContext, dataController.container.viewContext)
-
 			}
 		}
 	}
