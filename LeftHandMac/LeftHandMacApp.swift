@@ -1,6 +1,5 @@
 /*
 	LeftHandMacApp.swift
-	--------------------
 */
 import SwiftUI
 

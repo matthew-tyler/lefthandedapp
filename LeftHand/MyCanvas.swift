@@ -1,7 +1,6 @@
 /*
 	MyCanvas.swift
 */
-
 import Foundation
 import SwiftUI
 import PencilKit

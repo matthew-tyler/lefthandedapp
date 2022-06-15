@@ -1,9 +1,6 @@
 /*
 	ContentView.swift
-
-	// https://www.hackingwithswift.com/books/ios-swiftui/how-to-combine-core-data-and-swiftui
 */
-
 import SwiftUI
 import PencilKit
 
@@ -11,37 +8,29 @@ struct ContentView: View
 	{
 	@Environment(\.managedObjectContext) var moc
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
-	
+
+	let message = ["Left", "Right"]
+	@State var current_message : Int = 0
+
 	@State private var canvasView = PKCanvasView()
-	@State var sequence : Int = 0
 
 	var body: some View
 		{
 		VStack
 			{
-			List(writing)
-				{ instance in
-				Button
-					{
-					try? canvasView.drawing = PKDrawing(data: instance.data!)
-					}
-				label:
-					{
-					Text(instance.type ?? "Unknown")
-					}
-				}
+			Text(message[current_message])
 			HStack(spacing: 10)
 				{
 				Button("Clear")
 					{
 					canvasView.drawing = PKDrawing()
+					current_message = (current_message + 1) % message.count
 					}
 				Button("Save")
 					{
 					let actions = Writing(context: moc)
 					actions.id = UUID()
-					actions.type = "Saved " + (sequence as NSNumber).stringValue
-					sequence = sequence + 1
+					actions.type = message[current_message]
 					actions.data = canvasView.drawing.dataRepresentation()
 					try? moc.save()
 					}

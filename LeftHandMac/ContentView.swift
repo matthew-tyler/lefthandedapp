@@ -1,7 +1,6 @@
 /*
 	ContentView.swift
 */
-
 import SwiftUI
 import PencilKit
 
@@ -21,6 +20,7 @@ struct ContentView: View
 
 			VStack
 				{
+				Spacer()
 				HStack
 					{
 					Button("Delete")
