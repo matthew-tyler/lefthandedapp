@@ -18,7 +18,7 @@ struct ConsentView: View
 		{
 		VStack
 			{
-			Text("Something")
+			Text("Once you have signed the Consent form, please press \"Start\"")
 			Button("Start...")
 				{
 				parent.coordinator.screen = Screen.demographics
