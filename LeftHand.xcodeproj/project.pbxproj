@@ -15,6 +15,8 @@
 		499D442D28596C05008F8D38 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D442C28596C05008F8D38 /* Persistence.swift */; };
 		499D443628596C1A008F8D38 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499D443528596C1A008F8D38 /* CloudKit.framework */; };
 		499D443928596C9A008F8D38 /* LeftHand.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 499D443728596C9A008F8D38 /* LeftHand.xcdatamodeld */; };
+		49B0C132285AA85600F561F9 /* DemographicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B0C131285AA85600F561F9 /* DemographicsView.swift */; };
+		49B0C134285AEFD500F561F9 /* ConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B0C133285AEFD500F561F9 /* ConsentView.swift */; };
 		49FA6C7328498EB2008F4F77 /* LeftHandApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C7228498EB2008F4F77 /* LeftHandApp.swift */; };
 		49FA6C7528498EB2008F4F77 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C7428498EB2008F4F77 /* ContentView.swift */; };
 		49FA6C7728498EB3008F4F77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49FA6C7628498EB3008F4F77 /* Assets.xcassets */; };
@@ -37,6 +39,8 @@
 		499D443128596C05008F8D38 /* LeftHandMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftHandMac.entitlements; sourceTree = "<group>"; };
 		499D443528596C1A008F8D38 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		499D443828596C9A008F8D38 /* Store.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Store.xcdatamodel; sourceTree = "<group>"; };
+		49B0C131285AA85600F561F9 /* DemographicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemographicsView.swift; sourceTree = "<group>"; };
+		49B0C133285AEFD500F561F9 /* ConsentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentView.swift; sourceTree = "<group>"; };
 		49FA6C6F28498EB2008F4F77 /* LeftHand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeftHand.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FA6C7228498EB2008F4F77 /* LeftHandApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftHandApp.swift; sourceTree = "<group>"; };
 		49FA6C7428498EB2008F4F77 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 				499D441828596A60008F8D38 /* LeftHand.entitlements */,
 				49FA6C7228498EB2008F4F77 /* LeftHandApp.swift */,
 				49FA6C7428498EB2008F4F77 /* ContentView.swift */,
+				49B0C131285AA85600F561F9 /* DemographicsView.swift */,
+				49B0C133285AEFD500F561F9 /* ConsentView.swift */,
 				49FA6C8028498F02008F4F77 /* MyCanvas.swift */,
 				49FA6C822849AD42008F4F77 /* LeftHand.xcdatamodeld */,
 				49FA6C852849AE42008F4F77 /* DataContainer.swift */,
@@ -254,6 +260,8 @@
 			files = (
 				49FA6C8128498F02008F4F77 /* MyCanvas.swift in Sources */,
 				49FA6C862849AE42008F4F77 /* DataContainer.swift in Sources */,
+				49B0C132285AA85600F561F9 /* DemographicsView.swift in Sources */,
+				49B0C134285AEFD500F561F9 /* ConsentView.swift in Sources */,
 				49FA6C7528498EB2008F4F77 /* ContentView.swift in Sources */,
 				49FA6C7328498EB2008F4F77 /* LeftHandApp.swift in Sources */,
 				49FA6C842849AD42008F4F77 /* LeftHand.xcdatamodeld in Sources */,

@@ -6,7 +6,7 @@ import PencilKit
 
 struct ContentView: View
 	{
-	@Environment(\.managedObjectContext) var moc
+	@State var parent: LeftHandApp
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
 
 	let message =
@@ -21,8 +21,12 @@ struct ContentView: View
 		"Vertical, Large Grip, Left Hand",
 		]
 	@State var current_message : Int = 0
-
 	@State private var canvasView = PKCanvasView()
+
+	init(_ parent: LeftHandApp)
+		{
+		_parent = State(initialValue: parent)
+		}
 
 	var body: some View
 		{
@@ -46,17 +50,27 @@ struct ContentView: View
 						.clipShape(RoundedRectangle(cornerRadius: 5))
 					Button("Save")
 						{
-						let actions = Writing(context: moc)
-						actions.id = UUID()
-						actions.type = message[current_message]
-						actions.data = canvasView.drawing.dataRepresentation()
-						try? moc.save()
+						let instance = Writing(context: parent.moc)
+						instance.id = UUID()
+						instance.type = message[current_message]
+						instance.data = canvasView.drawing.dataRepresentation()
+						try? parent.moc.save()
 						current_message = (current_message + 1) % message.count
 						}
 						.padding()
 						.foregroundColor(.white)
 						.background(Color.blue.opacity(0.5))
 						.clipShape(RoundedRectangle(cornerRadius: 5))
+
+					Button("Back...")
+						{
+						parent.coordinator.screen = Screen.demographics
+						}
+						.padding()
+						.foregroundColor(.white)
+						.background(Color.blue.opacity(0.5))
+						.clipShape(RoundedRectangle(cornerRadius: 5))
+
 					Spacer().frame(width: 50)
 					}.background(Color.white.opacity(0.5))
 				Spacer().frame(width: 50)
@@ -64,4 +78,3 @@ struct ContentView: View
 			}
 		}
 	}
-
