@@ -4,11 +4,12 @@
 
 import Foundation
 import SwiftUI
+import UIKit
+import PencilKit
 
 struct OrderingView: View
 	{
 	@State var parent: LeftHandApp
-	@State private var isEditable = false
 
 	init(_ parent: LeftHandApp)
 		{
@@ -17,32 +18,48 @@ struct OrderingView: View
 
     var body: some View
 		{
-		List
+		VStack
 			{
-			ForEach (parent.person.scribbes)
-				{ scribble in
-				Text(scribble.description)
-				}
-				.onMove(perform: move)
-				.onLongPressGesture
+			HStack
+				{
+				Button("Done")
 					{
-					withAnimation
+					for scribble in parent.person.scribbes
 						{
-						self.isEditable = true
+						print(scribble.description)
 						}
 					}
-
+				}
+			List
+				{
+				ForEach (parent.person.scribbes)
+					{ scribble in
+					Image(uiImage: getImage(path:scribble.path)).resizable().frame(width: UIScreen.main.bounds.width / 10, height: UIScreen.main.bounds.height / 10)
+					}
+					.onMove(perform: move)
+				}
+				.environment(\.editMode, Binding.constant(EditMode.active))
 			}
-			.environment(\.editMode, isEditable ? .constant(.active) : .constant(.inactive))
 		}
 
 	func move(from source: IndexSet, to destination: Int)
 		{
 		parent.person.scribbes.move(fromOffsets: source, toOffset: destination)
-		withAnimation
-			{
-			isEditable = false
-			}
+		}
+
+	func getImage(path : PKDrawing) -> UIImage
+		{
+		let img = path.image(from: path.bounds, scale: 1)
+		let screenSize: CGRect = UIScreen.main.bounds
+		let size = CGSize(width: screenSize.width, height: screenSize.height)
+
+		UIGraphicsBeginImageContext(size)
+		let areaSize = CGRect(x: 0, y: 0, width: path.bounds.width, height: path.bounds.height)
+		img.draw(in: areaSize)
+		let final = UIGraphicsGetImageFromCurrentImageContext()!
+		UIGraphicsEndImageContext()
+
+		return final
 		}
 	}
 
