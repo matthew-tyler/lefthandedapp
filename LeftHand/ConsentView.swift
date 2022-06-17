@@ -4,7 +4,6 @@
 
 import Foundation
 import SwiftUI
-import PencilKit
 
 struct ConsentView: View
 	{

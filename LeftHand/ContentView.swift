@@ -50,12 +50,20 @@ struct ContentView: View
 						.clipShape(RoundedRectangle(cornerRadius: 5))
 					Button("Save")
 						{
-						let instance = Writing(context: parent.moc)
-						instance.id = UUID()
-						instance.type = message[current_message]
-						instance.data = canvasView.drawing.dataRepresentation()
-						try? parent.moc.save()
+//						let instance = Writing(context: parent.moc)
+//						instance.id = UUID()
+//						instance.type = message[current_message]
+//						instance.data = canvasView.drawing.dataRepresentation()
+//						try? parent.moc.save()
+//						current_message = (current_message + 1) % message.count
+
+						parent.person.scribbes[current_message] = Drawing(description: message[current_message], path: canvasView.drawing)
 						current_message = (current_message + 1) % message.count
+
+						if current_message == 2
+							{
+							parent.coordinator.screen = Screen.order
+							}
 						}
 						.padding()
 						.foregroundColor(.white)
