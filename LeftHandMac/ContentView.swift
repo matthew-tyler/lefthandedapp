@@ -3,14 +3,29 @@
 */
 import SwiftUI
 import PencilKit
+import CoreData
+
+
+final class Originator
+	{
+	var id = UUID()
+	var sex: String = "Unknown"
+	var age: String = "Unknown"
+	var handedness: String = "Unknown"
+	var writingHand: String = "Unknown"
+	var educationLevel: String = "Unknown"
+	}
 
 struct ContentView: View
 	{
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
+	@FetchRequest(sortDescriptors: []) var person: FetchedResults<Person>
 	@Environment(\.managedObjectContext) var moc
 
 	@State var drawing : PKDrawing = PKDrawing()
 	@State var pen_path : Writing = Writing()
+
+	@State var originator = Originator()
 
 	var body: some View
 		{
@@ -51,6 +66,14 @@ struct ContentView: View
 				Divider()
 				HStack
 					{
+					Text(originator.id.uuidString)
+					Text(originator.age)
+					Text(originator.sex)
+					Text(originator.educationLevel)
+					}
+				Divider()
+				HStack
+					{
 					List(writing)
 						{ instance in
 						Text(instance.type ?? "Unknown").onTapGesture
@@ -74,4 +97,29 @@ struct ContentView: View
 				}
 			}
 		}
+
+//	private func getOriginator()
+//		{
+////		let moc = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+//
+//		let myRequest: NSFetchRequest<Person> = Person.fetchRequest()
+//
+//		myRequest.predicate = NSPredicate(format: "sex = %@", "Male")
+//
+//		do
+//			{
+//			let results = try moc.executeFetchRequest(myRequest)
+//
+//			for result in results
+//				{
+//				print(result)
+//				}
+//			}
+//		catch let error
+//			{
+//			print(error)
+//			}
+//		}
+
+
 	}
