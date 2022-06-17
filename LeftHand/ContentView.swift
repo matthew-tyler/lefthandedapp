@@ -7,6 +7,7 @@ import PencilKit
 struct ContentView: View
 	{
 	@State var parent: LeftHandApp
+	@Environment(\.managedObjectContext) var moc
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
 
 	let message =
@@ -20,6 +21,7 @@ struct ContentView: View
 		"Vertical, Large Grip, Right Hand",
 		"Vertical, Large Grip, Left Hand",
 		]
+		
 	@State var current_message : Int = 0
 	@State private var canvasView = PKCanvasView()
 
@@ -50,17 +52,16 @@ struct ContentView: View
 						.clipShape(RoundedRectangle(cornerRadius: 5))
 					Button("Save")
 						{
-//						let instance = Writing(context: parent.moc)
+//						let instance = Writing(context: moc)
 //						instance.id = UUID()
-//						instance.type = message[current_message]
+//						instance.type = "X" + message[current_message]
 //						instance.data = canvasView.drawing.dataRepresentation()
-//						try? parent.moc.save()
-//						current_message = (current_message + 1) % message.count
+//						try? moc.save()
 
 						parent.person.scribbes[current_message] = Drawing(description: message[current_message], path: canvasView.drawing)
 						current_message = (current_message + 1) % message.count
 
-						if current_message == 2
+						if current_message == 0
 							{
 							parent.coordinator.screen = Screen.order
 							}

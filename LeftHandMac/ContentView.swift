@@ -35,7 +35,7 @@ struct ContentView: View
 							{
 							print("\n\n\n\nCOORDINATES\n\n\n\n")
 							stroke.path.forEach
-								{ (point) in
+								{ point in
 								let newPoint = PKStrokePoint(location: point.location,
 								timeOffset: point.timeOffset,
 								size: point.size,
@@ -66,8 +66,10 @@ struct ContentView: View
 								}
 							}
 						}
+					Spacer().frame(width: 10)
 					Divider()
 					Image(nsImage: drawing.image(from: drawing.bounds, scale: 1))
+					Spacer()
 					}
 				}
 			}

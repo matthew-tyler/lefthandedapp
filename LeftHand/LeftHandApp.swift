@@ -22,7 +22,7 @@ final class AppCoordinator: ObservableObject
 		}
 	}
 
-struct Drawing : Identifiable
+struct Drawing : Identifiable, Equatable
 	{
    let id = UUID()
 	var description : String = ""
@@ -63,6 +63,7 @@ final class User
 @main
 struct LeftHandApp: App
 	{
+	
 	@Environment(\.managedObjectContext) var moc
 
 	@StateObject var coordinator = AppCoordinator()
@@ -82,7 +83,7 @@ struct LeftHandApp: App
 				case .writings:
 					ContentView(self).environment(\.managedObjectContext, dataController.container.viewContext)
 				case .order:
-					OrderingView(self)
+					OrderingView(self).environment(\.managedObjectContext, dataController.container.viewContext)
 				}
 			}
 		}
