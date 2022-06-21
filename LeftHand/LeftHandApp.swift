@@ -4,6 +4,8 @@
 import SwiftUI
 import PencilKit
 
+let UNKNOWN = "Unknown"
+
 enum Screen
 	{
 	case conset
@@ -40,23 +42,23 @@ struct Drawing : Identifiable, Equatable
 final class User
 	{
 	var id = UUID()
-	var sex: String = "Unknown"
-	var age: String = "Unknown"
-	var handedness: String = "Unknown"
-	var writingHand: String = "Unknown"
-	var educationLevel: String = "Unknown"
+	var sex: String = UNKNOWN
+	var age: String = UNKNOWN
+	var handedness: String = UNKNOWN
+	var writingHand: String = UNKNOWN
+	var educationLevel: String = UNKNOWN
 	var scribbes: [Drawing] = []
 
 	init()
 		{
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
-		scribbes.append(Drawing(description: "Unknown", path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
 		}
 	}
 
