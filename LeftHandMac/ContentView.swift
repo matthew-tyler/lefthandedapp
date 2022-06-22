@@ -7,45 +7,50 @@ import CoreData
 
 let UNKNOWN = "Unknown"
 
-final class Originator
+class Originator: ObservableObject
 	{
-	var id: String = UNKNOWN
-	var sex: String = UNKNOWN
-	var age: String = UNKNOWN
-	var handedness: String = UNKNOWN
-	var writingHand: String = UNKNOWN
-	var qualifications: String = UNKNOWN
+	@Published var id: String = UNKNOWN
+	@Published var sex: String = UNKNOWN
+	@Published var age: String = UNKNOWN
+	@Published var handedness: String = UNKNOWN
+	@Published var writingHand: String = UNKNOWN
+	@Published var qualifications: String = UNKNOWN
 	}
 
 
-//struct ContentView: View {
-//    @State var selection: Int? = 0
-//
-//    func changeSelection(_ by: Int) {
-//        switch self.selection {
-//        case .none:
-//            self.selection = 0
-//        case .some(let sel):
-//            self.selection = max(min(sel + by, 20), 0)
-//        }
-//    }
-//
-//    var body: some View {
-//        HStack {
-//            List((0..<20), selection: $selection) {
-//                Text(String($0))
-//            }
-//            VStack {
-//                Button(action: { self.changeSelection(-1) }) {
-//                    Text("Move Up")
-//                }
-//                Button(action: { self.changeSelection(1) }) {
-//                    Text("Move Down")
-//                }
-//            }
-//        }
-//    }
-//}
+struct WritingView: View
+	{
+	var instance: Writing
+	var drawing: PKDrawing
+	var person: Person?
+	@EnvironmentObject var originator: Originator
+
+	var body: some View
+		{
+		Image(nsImage: drawing.image(from: drawing.bounds, scale: 1)).frame(alignment: .topLeading)
+		.onAppear()
+			{
+			if person == nil
+				{
+				self.originator.id = UNKNOWN
+				self.originator.age = UNKNOWN
+				self.originator.sex = UNKNOWN
+				self.originator.qualifications = UNKNOWN
+				self.originator.handedness = UNKNOWN
+				self.originator.writingHand = UNKNOWN
+				}
+			else
+				{
+				self.originator.id = person!.id!.uuidString
+				self.originator.age = person!.age!
+				self.originator.sex = person!.sex!
+				self.originator.qualifications = person!.qualifications!
+				self.originator.handedness = person!.handedness!
+				self.originator.writingHand = person!.writinghand!
+				}
+			}
+		}
+	}
 
 struct ContentView: View
 	{
@@ -57,9 +62,19 @@ struct ContentView: View
 	@State var drawing : PKDrawing = PKDrawing()
 	@State var pen_path : Writing = Writing()
 
-	@State var originator = Originator()
+	@StateObject var originator = Originator()
 
 	@State var selection: Writing? = nil
+
+	func getItem(with id: UUID?) -> Person?
+		{
+		guard let id = id else { return nil }
+		let request = Person.fetchRequest() as NSFetchRequest<Person>
+		request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
+		guard let items = try? moc.fetch(request) else { return nil }
+		return items.first
+		}
+
 
 	var body: some View
 		{
@@ -112,55 +127,25 @@ struct ContentView: View
 				Divider()
 				HStack
 					{
-					List(selection: $selection)
+					NavigationView
 						{
-						ForEach(writing, id: \.self)
-							{instance in
-							Text(instance.type ?? UNKNOWN)
-							.frame(width: 300, alignment: .leading)
-							.onTapGesture
-								{
-								do
+						List(selection: $selection)
+							{
+							ForEach(writing, id: \.self)
+								{instance in
+								NavigationLink(destination:
+									WritingView(instance: instance,
+									drawing: try! PKDrawing(data: instance.data!), person: instance.person_id == nil ? nil : getItem(with:instance.person_id!)).environmentObject(originator))
 									{
-									selection = instance
-									pen_path = instance
-									drawing = try PKDrawing(data: pen_path.data!)
-									originator = Originator()
-
-									if instance.person_id != nil, let got = getItem(with:instance.person_id!)
-										{
-										originator.id = got.id!.uuidString
-										originator.age = got.age!
-										originator.sex = got.sex!
-										originator.qualifications = got.qualifications!
-										originator.handedness = got.handedness!
-										originator.writingHand = got.writinghand!
-										}
-									}
-								catch
-									{
-									print(error)
+									Text(instance.type ?? UNKNOWN)
 									}
 								}
-							}
+							}.frame(width:300, alignment: .leading)
 						}
 					.frame(width:250, alignment: .leading)
-					Spacer().frame(width: 10)
-					Divider()
-					Image(nsImage: drawing.image(from: drawing.bounds, scale: 1)).frame(alignment: .topLeading)
 					Spacer()
 					}
 				}
 			}
 		}
-
-	func getItem(with id: UUID?) -> Person?
-		{
-		guard let id = id else { return nil }
-		let request = Person.fetchRequest() as NSFetchRequest<Person>
-		request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
-		guard let items = try? moc.fetch(request) else { return nil }
-		return items.first
-		}
-
 	}
