@@ -133,9 +133,7 @@ struct ContentView: View
 							{
 							ForEach(writing, id: \.self)
 								{instance in
-								NavigationLink(destination:
-									WritingView(instance: instance,
-									drawing: try! PKDrawing(data: instance.data!), person: instance.person_id == nil ? nil : getItem(with:instance.person_id!)).environmentObject(originator))
+								NavigationLink(destination: WritingView(instance: instance, drawing: try! PKDrawing(data: instance.data!), person: instance.person_id == nil ? nil : getItem(with:instance.person_id!)).environmentObject(originator))
 									{
 									Text(instance.type ?? UNKNOWN)
 									}
