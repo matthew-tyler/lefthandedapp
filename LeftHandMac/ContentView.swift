@@ -9,6 +9,7 @@ let UNKNOWN = "Unknown"
 
 class Originator: ObservableObject
 	{
+	@Published var pen_path : Writing? = nil
 	@Published var id: String = UNKNOWN
 	@Published var sex: String = UNKNOWN
 	@Published var age: String = UNKNOWN
@@ -16,7 +17,6 @@ class Originator: ObservableObject
 	@Published var writingHand: String = UNKNOWN
 	@Published var qualifications: String = UNKNOWN
 	}
-
 
 struct WritingView: View
 	{
@@ -30,23 +30,24 @@ struct WritingView: View
 		Image(nsImage: drawing.image(from: drawing.bounds, scale: 1)).frame(alignment: .topLeading)
 		.onAppear()
 			{
+			originator.pen_path = instance
 			if person == nil
 				{
-				self.originator.id = UNKNOWN
-				self.originator.age = UNKNOWN
-				self.originator.sex = UNKNOWN
-				self.originator.qualifications = UNKNOWN
-				self.originator.handedness = UNKNOWN
-				self.originator.writingHand = UNKNOWN
+				originator.id = UNKNOWN
+				originator.age = UNKNOWN
+				originator.sex = UNKNOWN
+				originator.qualifications = UNKNOWN
+				originator.handedness = UNKNOWN
+				originator.writingHand = UNKNOWN
 				}
 			else
 				{
-				self.originator.id = person!.id!.uuidString
-				self.originator.age = person!.age!
-				self.originator.sex = person!.sex!
-				self.originator.qualifications = person!.qualifications!
-				self.originator.handedness = person!.handedness!
-				self.originator.writingHand = person!.writinghand!
+				originator.id = person!.id!.uuidString
+				originator.age = person!.age!
+				originator.sex = person!.sex!
+				originator.qualifications = person!.qualifications!
+				originator.handedness = person!.handedness!
+				originator.writingHand = person!.writinghand!
 				}
 			}
 		}
@@ -54,16 +55,11 @@ struct WritingView: View
 
 struct ContentView: View
 	{
+	@Environment(\.managedObjectContext) var moc
 	@FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Writing.person_id, ascending: true), NSSortDescriptor(keyPath: \Writing.type, ascending: true)]) var writing: FetchedResults<Writing>
 	@FetchRequest(sortDescriptors: []) var person: FetchedResults<Person>
-	@Environment(\.managedObjectContext) var moc
-
-	@State var originatorUuidFilter = UUID()
-	@State var drawing : PKDrawing = PKDrawing()
-	@State var pen_path : Writing = Writing()
 
 	@StateObject var originator = Originator()
-
 	@State var selection: Writing? = nil
 
 	func getItem(with id: UUID?) -> Person?
@@ -74,7 +70,6 @@ struct ContentView: View
 		guard let items = try? moc.fetch(request) else { return nil }
 		return items.first
 		}
-
 
 	var body: some View
 		{
@@ -89,25 +84,53 @@ struct ContentView: View
 					{
 					Button("Delete")
 						{
-						moc.delete(pen_path)
-						try? moc.save()
+						if originator.pen_path != nil
+							{
+							moc.delete(originator.pen_path!)
+							try? moc.save()
+							}
 						}
 					Spacer().frame(width: 50)
 					Button("Export")
 						{
-						for stroke in drawing.strokes
+						if originator.pen_path != nil
 							{
-							print("\n\n\n\nCOORDINATES\n\n\n\n")
-							stroke.path.forEach
-								{ point in
-								let newPoint = PKStrokePoint(location: point.location,
-								timeOffset: point.timeOffset,
-								size: point.size,
-								opacity: point.opacity,
-								force: point.force,
-								azimuth: point.azimuth,
-								altitude: point.altitude)
-								print(newPoint)
+							for stroke in try! PKDrawing(data: originator.pen_path!.data!).strokes
+								{
+								print("\n\n\n\nCOORDINATES\n\n\n\n")
+								stroke.path.forEach
+									{ point in
+									let newPoint = PKStrokePoint(location: point.location,
+									timeOffset: point.timeOffset,
+									size: point.size,
+									opacity: point.opacity,
+									force: point.force,
+									azimuth: point.azimuth,
+									altitude: point.altitude)
+									print(newPoint)
+									}
+								}
+							}
+						}
+					Button("ExportAll")
+						{
+						for instance in writing
+							{
+							print(instance.type ?? UNKNOWN)
+							for stroke in try! PKDrawing(data: instance.data!).strokes
+								{
+								print("\n\n\n\nCOORDINATES\n\n\n\n")
+								stroke.path.forEach
+									{ point in
+									let newPoint = PKStrokePoint(location: point.location,
+									timeOffset: point.timeOffset,
+									size: point.size,
+									opacity: point.opacity,
+									force: point.force,
+									azimuth: point.azimuth,
+									altitude: point.altitude)
+									print(newPoint)
+									}
 								}
 							}
 						}
@@ -121,7 +144,7 @@ struct ContentView: View
 					Text(" Sex:" + originator.sex)
 					Text(" Qual:" + originator.qualifications)
 					Text(" Hand:" + originator.handedness)
-					Text(" Writing:" + originator.writingHand)
+					Text(" Writer:" + originator.writingHand)
 					Spacer()
 					}
 				Divider()
@@ -133,14 +156,16 @@ struct ContentView: View
 							{
 							ForEach(writing, id: \.self)
 								{instance in
-								NavigationLink(destination: WritingView(instance: instance, drawing: try! PKDrawing(data: instance.data!), person: instance.person_id == nil ? nil : getItem(with:instance.person_id!)).environmentObject(originator))
+								NavigationLink(destination:
+								WritingView(instance: instance, drawing: try! PKDrawing(data: instance.data!), person: instance.person_id == nil ? nil : getItem(with:instance.person_id!)).environmentObject(originator))
 									{
 									Text(instance.type ?? UNKNOWN)
 									}
 								}
-							}.frame(width:300, alignment: .leading)
+							}
+							.frame(minWidth:300, alignment: .leading)
 						}
-					.frame(width:250, alignment: .leading)
+					.frame(minWidth:250, alignment: .leading)
 					Spacer()
 					}
 				}
