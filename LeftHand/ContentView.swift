@@ -7,8 +7,6 @@ import PencilKit
 struct ContentView: View
 	{
 	@State var parent: LeftHandApp
-	@Environment(\.managedObjectContext) var moc
-	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
 
 	let message =
 		[
@@ -40,7 +38,11 @@ struct ContentView: View
 				HStack
 					{
 					Spacer().frame(width: 50)
-					Text(message[current_message])
+					Image("OtagoLogo")
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+						.frame(width:50)
+					Text(message[current_message]).font(.title)
 					Spacer()
 					Button("Clear")
 						{
@@ -52,12 +54,6 @@ struct ContentView: View
 						.clipShape(RoundedRectangle(cornerRadius: 5))
 					Button("Save")
 						{
-//						let instance = Writing(context: moc)
-//						instance.id = UUID()
-//						instance.type = "X" + message[current_message]
-//						instance.data = canvasView.drawing.dataRepresentation()
-//						try? moc.save()
-
 						parent.person.scribbes[current_message] = Drawing(description: message[current_message], path: canvasView.drawing)
 						current_message = (current_message + 1) % message.count
 
@@ -65,6 +61,7 @@ struct ContentView: View
 							{
 							parent.coordinator.screen = Screen.order
 							}
+						canvasView.drawing = PKDrawing()
 						}
 						.padding()
 						.foregroundColor(.white)

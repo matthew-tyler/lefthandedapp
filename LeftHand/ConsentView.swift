@@ -8,6 +8,7 @@ import SwiftUI
 struct ConsentView: View
 	{
 	@State var parent: LeftHandApp
+
 	init(_ parent: LeftHandApp)
 		{
 		_parent = State(initialValue: parent)
@@ -15,15 +16,30 @@ struct ConsentView: View
 
     var body: some View
 		{
+		Spacer()
+		Image("OtagoLogo")
+			.resizable()
+			.aspectRatio(contentMode: .fit)
+			.frame(width:200)
 		VStack
 			{
-			Text("Once you have signed the Consent form, please press \"Start\"")
-			Button("Start...")
-				{
-				parent.coordinator.screen = Screen.demographics
-				parent.person.id = UUID()
-				}
+			Text("University of Otago").font(.largeTitle)
+			Text("Writing Experiment").font(.largeTitle)
 			}
+
+		Spacer()
+		Text("Please press \"Start Experiment\" once you have signed the Consent Form").font(.title)
+		Spacer()
+		Button("Start Experiment")
+			{
+			parent.coordinator.screen = Screen.demographics
+			parent.person.id = UUID()
+			}
+			.padding()
+			.foregroundColor(.white)
+			.background(Color.blue.opacity(0.5))
+			.clipShape(RoundedRectangle(cornerRadius: 5))
+		Spacer()
 		}
 	}
 

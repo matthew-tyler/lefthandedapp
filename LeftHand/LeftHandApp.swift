@@ -4,7 +4,7 @@
 import SwiftUI
 import PencilKit
 
-let UNKNOWN = "Unknown"
+let UNKNOWN = "Withheld"
 
 enum Screen
 	{

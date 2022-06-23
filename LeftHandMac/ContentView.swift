@@ -163,12 +163,50 @@ struct ContentView: View
 									}
 								}
 							}
-							.frame(minWidth:300, alignment: .leading)
+						}
+					.onAppear
+						{
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.1)
+							{
+							/*
+								This prevents the NavigationView from hiding the left hand pane.
+							*/
+							guard let nsSplitView = findNSSplitVIew(view: NSApp.windows.first?.contentView), let controller = nsSplitView.delegate as? NSSplitViewController else
+								{
+								return
+								}
+							controller.splitViewItems.first?.canCollapse = false
+							controller.splitViewItems.first?.isCollapsed = false
+							controller.splitViewItems.first?.minimumThickness = 300
+							controller.splitViewItems.first?.maximumThickness = 300
+							}
 						}
 					.frame(minWidth:250, alignment: .leading)
 					Spacer()
 					}
 				}
 			}
+		}
+
+	private func findNSSplitVIew(view: NSView?) -> NSSplitView?
+		{
+		var queue = [NSView]()
+		if let root = view
+			{
+			queue.append(root)
+			}
+		while !queue.isEmpty
+			{
+			let current = queue.removeFirst()
+			if current is NSSplitView
+				{
+				return current as? NSSplitView
+				}
+			for subview in current.subviews
+				{
+				queue.append(subview)
+				}
+			}
+		return nil
 		}
 	}

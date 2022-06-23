@@ -12,10 +12,14 @@ struct OrderingView: View
 	@State var parent: LeftHandApp
 	@Environment(\.managedObjectContext) var moc
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
+	@State var saveError : Bool = false
+	@State var saveSuccess : Bool = false
 
 	init(_ parent: LeftHandApp)
 		{
 		_parent = State(initialValue: parent)
+		saveError = false
+		saveSuccess = false
 		}
 
     var body: some View
@@ -37,7 +41,6 @@ struct OrderingView: View
 					instance.handedness = parent.person.handedness
 					instance.writinghand = parent.person.writingHand
 					instance.qualifications = parent.person.educationLevel
-					try? moc.save()
 
 					/*
 						Write the pen motions
@@ -50,13 +53,37 @@ struct OrderingView: View
 						instance.type = scribble.description
 						instance.data = scribble.path.dataRepresentation()
 						instance.person_id = parent.person.id
-						try? moc.save()
+						}
+					do
+						{
+//						try moc.save()
+						saveSuccess = true
+						saveError = false
+
+						parent.person.sex = UNKNOWN
+						parent.person.age = UNKNOWN
+						parent.person.handedness = UNKNOWN
+						parent.person.writingHand = UNKNOWN
+						parent.person.educationLevel = UNKNOWN
+						}
+					catch
+						{
+						saveSuccess = false
+						saveError = true
 						}
 					}
 					.padding()
 					.foregroundColor(.white)
 					.background(Color.blue.opacity(0.5))
 					.clipShape(RoundedRectangle(cornerRadius: 5))
+					.alert(isPresented: $saveError)
+						{
+						Alert(title: Text("Save Error!"), message: Text("Failed to save writing.  Please report this error"))
+						}
+					.alert(isPresented: $saveSuccess)
+						{
+						Alert(title: Text("Thank You"), message: Text("Thank you for participating in this study"), dismissButton: .default(Text("Okay"), action: { parent.coordinator.screen = Screen.conset}))
+						}
 				Spacer().frame(width: 50)
 				}
 			List

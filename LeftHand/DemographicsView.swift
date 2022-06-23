@@ -39,13 +39,31 @@ struct DemographicsView: View
 
     var body: some View
 		{
-		VStack
+		Spacer()
+		Group
+			{
+			Image("OtagoLogo")
+				.resizable()
+				.aspectRatio(contentMode: .fit)
+				.frame(width:100)
+			Text("University of Otago").font(.largeTitle)
+			Text("Writing Experiment").font(.largeTitle)
+			Text("").font(.largeTitle)
+			Text("Please provide a little information about yourself").font(.title)
+			}
+		Spacer()
+		Group
 			{
 			HStack
 				{
+				Spacer().frame(width:20)
+				Text("Sex:").font(.title)
 				Spacer()
-				Text("Sex ")
-					Picker("Sex:", selection: $selectedSex)
+				}
+			HStack
+				{
+				Spacer().frame(width:40)
+				Picker("Sex:", selection: $selectedSex)
 					{
 					ForEach(sexes, id: \.self)
 						{
@@ -54,10 +72,20 @@ struct DemographicsView: View
 					}.pickerStyle(SegmentedPickerStyle())
 				Spacer()
 				}
+			Spacer()
+			}
+
+		Group
+			{
 			HStack
 				{
+				Spacer().frame(width:20)
+				Text("Age:").font(.title)
 				Spacer()
-				Text("Age ")
+				}
+			HStack
+				{
+				Spacer().frame(width:40)
 				Picker("Age:", selection: $selectedAge)
 					{
 					ForEach(ages, id: \.self)
@@ -67,23 +95,20 @@ struct DemographicsView: View
 					}.pickerStyle(SegmentedPickerStyle())
 				Spacer()
 				}
+			Spacer()
+			}
+
+		Group
+			{
 			HStack
 				{
-				Spacer()
-				Text("Handedness ")
-				Picker("Handedness:", selection: $selectedHandedness)
-					{
-					ForEach(handedness, id: \.self)
-						{
-						Text($0)
-						}
-					}.pickerStyle(SegmentedPickerStyle())
+				Spacer().frame(width:20)
+				Text("Writing Hand:").font(.title)
 				Spacer()
 				}
 			HStack
 				{
-				Spacer()
-				Text("Writing Hand ")
+				Spacer().frame(width:40)
 				Picker("Writing Hand:", selection: $selectedWritingHand)
 					{
 					ForEach(writingHand, id: \.self)
@@ -93,10 +118,43 @@ struct DemographicsView: View
 					}.pickerStyle(SegmentedPickerStyle())
 				Spacer()
 				}
+			Spacer()
+			}
+
+		Group
+			{
 			HStack
 				{
+				Spacer().frame(width:20)
+				Text("Handedness:").font(.title)
 				Spacer()
-				Text("Highest Qualification ")
+				}
+			HStack
+				{
+				Spacer().frame(width:40)
+				Picker("Handedness:", selection: $selectedHandedness)
+					{
+					ForEach(handedness, id: \.self)
+						{
+						Text($0)
+						}
+					}.pickerStyle(SegmentedPickerStyle())
+				Spacer()
+				}
+			Spacer()
+			}
+
+		Group
+			{
+			HStack
+				{
+				Spacer().frame(width:20)
+				Text("Highest Qualification:").font(.title)
+				Spacer()
+				}
+			HStack
+				{
+				Spacer().frame(width:40)
 				Picker("EducationLevel:", selection: $selectedEducationLevel)
 					{
 					ForEach(educationLevel, id: \.self)
@@ -106,6 +164,12 @@ struct DemographicsView: View
 					}.pickerStyle(SegmentedPickerStyle())
 				Spacer()
 				}
+			Spacer()
+			}
+
+		Group
+			{
+			Spacer()
 			Button("Continue...")
 				{
 				parent.coordinator.screen = Screen.writings
@@ -116,6 +180,11 @@ struct DemographicsView: View
 				result.writingHand = selectedWritingHand
 				result.educationLevel = selectedEducationLevel
 				}
+				.padding()
+				.foregroundColor(.white)
+				.background(Color.blue.opacity(0.5))
+				.clipShape(RoundedRectangle(cornerRadius: 5))
+			Spacer()
 			}
 		}
 	}
