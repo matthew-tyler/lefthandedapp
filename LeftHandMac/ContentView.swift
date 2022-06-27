@@ -82,7 +82,7 @@ struct ContentView: View
 	@StateObject var originator = Originator()
 	@State var selection: Writing? = nil
 
-	func getItem(with id: UUID?) -> Person?
+	func getPerson(with id: UUID?) -> Person?
 		{
 		guard let id = id else { return nil }
 		let request = Person.fetchRequest() as NSFetchRequest<Person>
@@ -125,6 +125,16 @@ struct ContentView: View
 						{
 						if originator.pen_path != nil
 							{
+							let author = getPerson(with: originator.pen_path?.person_id)
+
+							print(author!.id!.uuidString)
+							print(author!.age!)
+							print(author!.sex!)
+							print(author!.qualifications!)
+							print(author!.handedness!)
+							print(author!.writinghand!)
+							print(author!.authorranks!)
+
 							for stroke in try! PKDrawing(data: originator.pen_path!.data!).strokes
 								{
 								print("\n\n\n\nCOORDINATES\n\n\n\n")
@@ -204,7 +214,7 @@ struct ContentView: View
 							ForEach(writing, id: \.self)
 								{instance in
 								let got = try! PKDrawing(data: instance.data!)
-								NavigationLink(destination: WritingView(instance: instance, drawing: got, person: instance.person_id == nil ? nil : getItem(with:instance.person_id!)).environmentObject(originator))
+								NavigationLink(destination: WritingView(instance: instance, drawing: got, person: instance.person_id == nil ? nil : getPerson(with:instance.person_id!)).environmentObject(originator))
 									{
 									Text(instance.type ?? UNKNOWN)
 									}
@@ -259,11 +269,13 @@ struct ContentView: View
 		}
 	}
 
-extension NSTableView {
-  open override func viewDidMoveToWindow() {
-    super.viewDidMoveToWindow()
+extension NSTableView
+	{
+	open override func viewDidMoveToWindow()
+		{
+		super.viewDidMoveToWindow()
 
-    backgroundColor = NSColor.white
-    enclosingScrollView!.drawsBackground = false
-  }
-}
+		backgroundColor = NSColor.white
+		enclosingScrollView!.drawsBackground = false
+		}
+	}
