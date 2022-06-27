@@ -42,7 +42,7 @@ struct ContentView: View
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width:50)
-					Text(message[current_message]).font(.title)
+					Text("Please write " + message[current_message]).font(.title)
 					Spacer()
 					Button("Clear")
 						{
@@ -52,30 +52,50 @@ struct ContentView: View
 						.foregroundColor(.white)
 						.background(Color.blue.opacity(0.5))
 						.clipShape(RoundedRectangle(cornerRadius: 5))
-					Button("Save")
+					Group
 						{
-						parent.person.scribbes[current_message] = Drawing(description: message[current_message], path: canvasView.drawing)
-						current_message = (current_message + 1) % message.count
-
-						if current_message == 0
+						Spacer().frame(width:20)
+						Button("Save")
 							{
-							parent.coordinator.screen = Screen.order
-							}
-						canvasView.drawing = PKDrawing()
-						}
-						.padding()
-						.foregroundColor(.white)
-						.background(Color.blue.opacity(0.5))
-						.clipShape(RoundedRectangle(cornerRadius: 5))
+							parent.person.scribbes[current_message] = Drawing(description: message[current_message], path: canvasView.drawing)
+							current_message = (current_message + 1) % message.count
 
-					Button("Back...")
-						{
-						parent.coordinator.screen = Screen.demographics
+							if current_message == 0
+								{
+								parent.coordinator.screen = Screen.order
+								}
+							canvasView.drawing = PKDrawing()
+							}
+							.padding()
+							.foregroundColor(.white)
+							.background(Color.blue.opacity(0.5))
+							.clipShape(RoundedRectangle(cornerRadius: 5))
 						}
-						.padding()
-						.foregroundColor(.white)
-						.background(Color.blue.opacity(0.5))
-						.clipShape(RoundedRectangle(cornerRadius: 5))
+//					Group
+//						{
+//						Spacer().frame(width:20)
+//						Button("Back...")
+//							{
+//							parent.coordinator.screen = Screen.demographics
+//							}
+//							.padding()
+//							.foregroundColor(.white)
+//							.background(Color.blue.opacity(0.5))
+//							.clipShape(RoundedRectangle(cornerRadius: 5))
+//						}
+					Group
+						{
+						Spacer().frame(width:20)
+						Button("QUIT")
+							{
+							parent.person.rewind()
+							parent.coordinator.screen = Screen.conset
+							}
+							.padding()
+							.foregroundColor(.white)
+							.background(Color.red.opacity(0.5))
+							.clipShape(RoundedRectangle(cornerRadius: 5))
+						}
 
 					Spacer().frame(width: 50)
 					}.background(Color.white.opacity(0.5))

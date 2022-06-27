@@ -23,7 +23,7 @@ struct DemographicsView: View
 	var writingHand = ["Left", "Right", "Ambidextrous", "Withheld"]
 	@State var selectedWritingHand: String
 
-	var educationLevel = ["School", "Batchelor", "Masters", "Phd", "Withheld"]
+	var educationLevel = ["School", "Batchelor", "Masters", "PhD", "Withheld"]
 	@State var selectedEducationLevel: String
 
 	init(_ parent: LeftHandApp, result : User)
@@ -170,20 +170,35 @@ struct DemographicsView: View
 		Group
 			{
 			Spacer()
-			Button("Continue...")
+			HStack
 				{
-				parent.coordinator.screen = Screen.writings
+				Spacer()
+				Button("Continue...")
+					{
+					parent.coordinator.screen = Screen.writings
 
-				result.sex = selectedSex
-				result.age = selectedAge
-				result.handedness = selectedHandedness
-				result.writingHand = selectedWritingHand
-				result.educationLevel = selectedEducationLevel
+					result.sex = selectedSex
+					result.age = selectedAge
+					result.handedness = selectedHandedness
+					result.writingHand = selectedWritingHand
+					result.educationLevel = selectedEducationLevel
+					}
+					.padding()
+					.foregroundColor(.white)
+					.background(Color.blue.opacity(0.5))
+					.clipShape(RoundedRectangle(cornerRadius: 5))
+				Spacer().frame(width:20)
+				Button("QUIT")
+					{
+					parent.person.rewind()
+					parent.coordinator.screen = Screen.conset
+					}
+					.padding()
+					.foregroundColor(.white)
+					.background(Color.red.opacity(0.5))
+					.clipShape(RoundedRectangle(cornerRadius: 5))
+				Spacer()
 				}
-				.padding()
-				.foregroundColor(.white)
-				.background(Color.blue.opacity(0.5))
-				.clipShape(RoundedRectangle(cornerRadius: 5))
 			Spacer()
 			}
 		}

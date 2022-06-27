@@ -26,7 +26,6 @@ struct ConsentView: View
 			Text("University of Otago").font(.largeTitle)
 			Text("Writing Experiment").font(.largeTitle)
 			}
-
 		Spacer()
 		Text("Please press \"Start Experiment\" once you have signed the Consent Form").font(.title)
 		Spacer()

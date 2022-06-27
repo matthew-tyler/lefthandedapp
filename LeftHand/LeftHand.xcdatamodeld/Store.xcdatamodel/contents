@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G624" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G630" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Person" representedClassName="Person" syncable="YES" codeGenerationType="class">
         <attribute name="age" optional="YES" attributeType="String"/>
+        <attribute name="authorranks" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformer" customClassName="[UUID]"/>
         <attribute name="handedness" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="qualifications" optional="YES" attributeType="String"/>
@@ -15,7 +16,7 @@
         <attribute name="type" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Person" positionX="-54" positionY="18" width="128" height="119"/>
+        <element name="Person" positionX="-54" positionY="18" width="128" height="134"/>
         <element name="Writing" positionX="-54" positionY="-9" width="128" height="89"/>
     </elements>
 </model>

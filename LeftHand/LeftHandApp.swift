@@ -48,9 +48,22 @@ final class User
 	var writingHand: String = UNKNOWN
 	var educationLevel: String = UNKNOWN
 	var scribbes: [Drawing] = []
+	var author_ranking: [UUID] = []
 
 	init()
 		{
+		rewind()
+		}
+
+	func rewind()
+		{
+		id = UUID()
+		sex = UNKNOWN
+		age = UNKNOWN
+		handedness = UNKNOWN
+		writingHand = UNKNOWN
+		educationLevel = UNKNOWN
+		scribbes = []
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
@@ -59,6 +72,7 @@ final class User
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		author_ranking = []
 		}
 	}
 

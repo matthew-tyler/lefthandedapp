@@ -28,20 +28,15 @@ struct OrderingView: View
 			{
 			HStack
 				{
+				Spacer().frame(width: 50)
+				Image("OtagoLogo")
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.frame(width:50)
+				Text("Please order your writings from most tidy (top) to least tidy (bottom).").font(.title)
 				Spacer()
 				Button("Done")
 					{
-					/*
-						Write the user details
-					*/
-					let instance = Person(context: moc)
-					instance.id = parent.person.id
-					instance.sex = parent.person.sex
-					instance.age = parent.person.age
-					instance.handedness = parent.person.handedness
-					instance.writinghand = parent.person.writingHand
-					instance.qualifications = parent.person.educationLevel
-
 					/*
 						Write the pen motions
 					*/
@@ -53,18 +48,31 @@ struct OrderingView: View
 						instance.type = scribble.description
 						instance.data = scribble.path.dataRepresentation()
 						instance.person_id = parent.person.id
+						parent.person.author_ranking.append(instance.id!)
 						}
+
+					/*
+						Write the user details
+					*/
+					let instance = Person(context: moc)
+					instance.id = parent.person.id
+					instance.sex = parent.person.sex
+					instance.age = parent.person.age
+					instance.handedness = parent.person.handedness
+					instance.writinghand = parent.person.writingHand
+					instance.qualifications = parent.person.educationLevel
+					instance.authorranks = parent.person.author_ranking
+
+					/*
+						Push to the database
+					*/
 					do
 						{
-//						try moc.save()
+						try moc.save()
 						saveSuccess = true
 						saveError = false
 
-						parent.person.sex = UNKNOWN
-						parent.person.age = UNKNOWN
-						parent.person.handedness = UNKNOWN
-						parent.person.writingHand = UNKNOWN
-						parent.person.educationLevel = UNKNOWN
+						parent.person.rewind()
 						}
 					catch
 						{
@@ -82,10 +90,20 @@ struct OrderingView: View
 						}
 					.alert(isPresented: $saveSuccess)
 						{
-						Alert(title: Text("Thank You"), message: Text("Thank you for participating in this study"), dismissButton: .default(Text("Okay"), action: { parent.coordinator.screen = Screen.conset}))
+						Alert(title: Text("Thank You"), message: Text("Thank you for participating in this study"), dismissButton: .default(Text("OK"), action: { parent.coordinator.screen = Screen.conset}))
 						}
+				Button("QUIT")
+					{
+					parent.person.rewind()
+					parent.coordinator.screen = Screen.conset
+					}
+					.padding()
+					.foregroundColor(.white)
+					.background(Color.red.opacity(0.5))
+					.clipShape(RoundedRectangle(cornerRadius: 5))
+
 				Spacer().frame(width: 50)
-				}
+				}.frame(height:100, alignment: .leading)
 			List
 				{
 				ForEach (parent.person.scribbes)
