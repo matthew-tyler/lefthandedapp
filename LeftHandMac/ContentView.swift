@@ -111,9 +111,19 @@ struct ContentView: View
 							}
 						}
 					Spacer().frame(width: 20)
-					Button("DeleteAll")
+					Button("Delete All")
 						{
+						/*
+							Delete the scribbles
+						*/
 						for instance in writing
+							{
+							moc.delete(instance)
+							}
+						/*
+							Delete the people
+						*/
+						for instance in person
 							{
 							moc.delete(instance)
 							}
@@ -121,58 +131,64 @@ struct ContentView: View
 						originator.rewind()
 						}
 					Spacer().frame(width: 50)
-					Button("Export")
-						{
-						if originator.pen_path != nil
-							{
-							let author = getPerson(with: originator.pen_path?.person_id)
 
-							print(author!.id!.uuidString)
-							print(author!.age!)
-							print(author!.sex!)
-							print(author!.qualifications!)
-							print(author!.handedness!)
-							print(author!.writinghand!)
-							print(author!.authorranks!)
-
-							for stroke in try! PKDrawing(data: originator.pen_path!.data!).strokes
-								{
-								print("\n\n\n\nCOORDINATES\n\n\n\n")
-								stroke.path.forEach
-									{ point in
-									let newPoint = PKStrokePoint(location: point.location,
-									timeOffset: point.timeOffset,
-									size: point.size,
-									opacity: point.opacity,
-									force: point.force,
-									azimuth: point.azimuth,
-									altitude: point.altitude)
-									print(newPoint)
-									}
-								}
-							}
-						}
-					Spacer().frame(width: 20)
-					Button("ExportAll")
+					Button("Export All")
 						{
-						for instance in writing
+						var authors: Set<UUID> = []
+						let panel = NSOpenPanel()
+						panel.allowsMultipleSelection = false
+						panel.canCreateDirectories = true
+						panel.canChooseDirectories = true
+						panel.canChooseFiles = false
+						if panel.runModal() == .OK
 							{
-							print(instance.type ?? UNKNOWN)
-							for stroke in try! PKDrawing(data: instance.data!).strokes
+							let directory = panel.url?.absoluteURL
+							for instance in writing
 								{
-								print("\n\n\n\nCOORDINATES\n\n\n\n")
-								stroke.path.forEach
-									{ point in
-									let newPoint = PKStrokePoint(location: point.location,
-									timeOffset: point.timeOffset,
-									size: point.size,
-									opacity: point.opacity,
-									force: point.force,
-									azimuth: point.azimuth,
-									altitude: point.altitude)
-									print(newPoint)
+								authors.insert(instance.person_id!)
+								/*
+									Save the pen path as a path
+								*/
+								let filename = directory!.appendingPathComponent(instance.id!.uuidString + ".txt")
+								FileManager.default.createFile(atPath: filename.path, contents:"".data(using: .utf8))
+
+								let fp = try! FileHandle(forWritingTo: filename)
+								for stroke in try! PKDrawing(data: instance.data!).strokes
+									{
+									fp.write("Stroke\n".data(using: .utf8)!)
+									stroke.path.forEach
+										{ point in
+										fp.write((String(describing: point) + "\n").data(using: .utf8)!)
+										}
 									}
+								fp.closeFile()
+
+								/*
+									Save the image as a PNG
+								*/
+								let image = try! PKDrawing(data: instance.data!)
+								let png = NSBitmapImageRep(data: image.image(from: image.bounds, scale:1).tiffRepresentation!)!.representation(using: .png, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: 1.0])
+								try! png!.write(to: directory!.appendingPathComponent(instance.id!.uuidString + ".png"))
 								}
+							/*
+								Step through the authors list and write that out too
+							*/
+							let csv_filename = directory!.appendingPathComponent("people" + ".csv")
+							FileManager.default.createFile(atPath: csv_filename.path, contents:"".data(using: .utf8))
+							let fp = try! FileHandle(forWritingTo: csv_filename)
+							let csv_heading: String = "id,age,sex,education,handedness,writing hand,1,2,3,4,5,6,7,8\n"
+							fp.write(csv_heading.data(using: .utf8)!)
+							for instance in authors
+								{
+								let who = getPerson(with:instance)!
+								var serialised: String = who.id!.uuidString + "," + who.age! + "," + who.sex! + "," + who.qualifications! + "," + who.handedness! + "," + who.writinghand!
+								for id in who.authorranks!
+									{
+									serialised = serialised +  "," + id.uuidString
+									}
+								fp.write((serialised + "\n").data(using: .utf8)!)
+								}
+							fp.closeFile()
 							}
 						}
 					}
