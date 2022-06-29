@@ -17,7 +17,6 @@ func dateToString(date: Date?) -> String
 	return dateFormatter.string(from: date!)
 	}
 
-
 struct PersonView: View
 	{
 	@Environment(\.managedObjectContext) var moc
