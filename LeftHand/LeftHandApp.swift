@@ -5,6 +5,7 @@ import SwiftUI
 import PencilKit
 
 let UNKNOWN = "Withheld"
+let UNKNOWN_ORDER: Int32 = -1
 
 enum Screen
 	{
@@ -29,13 +30,11 @@ struct Drawing : Identifiable, Equatable
    let id = UUID()
 	var description : String = ""
 	var path = PKDrawing()
-	var author_ranking : Int = 0
 
 	init(description: String, path: PKDrawing)
 		{
 		self.description = description
 		self.path = path
-		author_ranking = 0;
 		}
 	}
 
@@ -48,7 +47,8 @@ final class User
 	var writingHand: String = UNKNOWN
 	var educationLevel: String = UNKNOWN
 	var scribbes: [Drawing] = []
-	var author_ranking: [UUID] = []
+	var authorRanking: [UUID] = []
+	var latinSquareOrder: Int32 = UNKNOWN_ORDER
 
 	init()
 		{
@@ -72,7 +72,8 @@ final class User
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
 		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		author_ranking = []
+		authorRanking = []
+		latinSquareOrder = UNKNOWN_ORDER
 		}
 	}
 

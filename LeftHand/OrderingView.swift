@@ -47,7 +47,7 @@ struct OrderingView: View
 						instance.type = scribble.description
 						instance.data = scribble.path.dataRepresentation()
 						instance.person_id = parent.person.id
-						parent.person.author_ranking.append(instance.id!)
+						parent.person.authorRanking.append(instance.id!)
 						}
 
 					/*
@@ -60,7 +60,9 @@ struct OrderingView: View
 					instance.handedness = parent.person.handedness
 					instance.writinghand = parent.person.writingHand
 					instance.qualifications = parent.person.educationLevel
-					instance.authorranks = parent.person.author_ranking
+					instance.authorranks = parent.person.authorRanking
+					instance.latinsquareorder = parent.person.latinSquareOrder
+					instance.date = Date()		// this is when the person finished, not when they started
 
 					/*
 						Push to the database

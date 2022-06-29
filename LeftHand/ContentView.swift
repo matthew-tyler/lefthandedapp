@@ -104,6 +104,7 @@ struct ContentView: View
 						Spacer().frame(width:20)
 						Button("Save")
 							{
+							parent.person.latinSquareOrder = Int32(person.count)
 							parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing)
 							current_message = (current_message + 1) % unSquaredMessage.count
 

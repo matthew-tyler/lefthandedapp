@@ -5,23 +5,36 @@ import SwiftUI
 import PencilKit
 import CoreData
 
+func dateToString(date: Date?) -> String
+	{
+	if date == nil
+		{
+		return ""
+		}
+
+	let dateFormatter = DateFormatter()
+	dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+	return dateFormatter.string(from: date!)
+	}
+
+
 struct PersonView: View
 	{
 	@Environment(\.managedObjectContext) var moc
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
 	var person: Person
 
-func getImage(with id: UUID?) -> (NSImage?, Writing?)
-	{
-	guard let id = id else { return (nil, nil) }
-	let request = Writing.fetchRequest() as NSFetchRequest<Writing>
-	request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
-	guard let items = try? moc.fetch(request) else { return (nil, nil) }
+	func getImage(with id: UUID?) -> (NSImage?, Writing?)
+		{
+		guard let id = id else { return (nil, nil) }
+		let request = Writing.fetchRequest() as NSFetchRequest<Writing>
+		request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
+		guard let items = try? moc.fetch(request) else { return (nil, nil) }
 
-	let imageData = items.first
-	let path = try! PKDrawing(data: imageData!.data!)
-	return (path.image(from: path.bounds, scale: 1), imageData)
-	}
+		let imageData = items.first
+		let path = try! PKDrawing(data: imageData!.data!)
+		return (path.image(from: path.bounds, scale: 1), imageData)
+		}
 
 	var body: some View
 		{
@@ -38,6 +51,8 @@ func getImage(with id: UUID?) -> (NSImage?, Writing?)
 				Text(" Qual:" + person.qualifications!)
 				Text(" Hand:" + person.handedness!)
 				Text(" Writer:" + person.handedness!)
+				Text(" When:" + dateToString(date: person.date))
+				Text(" LatinOrder:" + String(person.latinsquareorder))
 				Spacer()
 				}
 			Spacer().frame(height:20)
@@ -234,12 +249,12 @@ struct ContentView: View
 							var csv_filename = directory!.appendingPathComponent("people" + ".csv")
 							FileManager.default.createFile(atPath: csv_filename.path, contents:"".data(using: .utf8))
 							var fp = try! FileHandle(forWritingTo: csv_filename)
-							var csv_heading: String = "id,age,sex,education,handedness,writing hand,1,2,3,4,5,6,7,8\n"
+							var csv_heading: String = "id,when,age,sex,education,handedness,writing hand,latin order,1,2,3,4,5,6,7,8\n"
 							fp.write(csv_heading.data(using: .utf8)!)
 							for instance in authors
 								{
 								let who = getPerson(with:instance)!
-								var serialised: String = who.id!.uuidString + "," + who.age! + "," + who.sex! + "," + who.qualifications! + "," + who.handedness! + "," + who.writinghand!
+								var serialised: String = who.id!.uuidString + "," + dateToString(date: who.date) + "," + who.age! + "," + who.sex! + "," + who.qualifications! + "," + who.handedness! + "," + who.writinghand! + "," + String(who.latinsquareorder)
 								for id in who.authorranks!
 									{
 									serialised = serialised +  "," + id.uuidString
