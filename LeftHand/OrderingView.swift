@@ -33,7 +33,7 @@ struct OrderingView: View
 					.resizable()
 					.aspectRatio(contentMode: .fit)
 					.frame(width:50)
-				Text("Please order your writings from most clear (top) to least clear (bottom).").font(.title)
+				Text("Please order from most clear (top) to least clear (bottom).").font(.title)
 				Spacer()
 				Button("Done")
 					{
@@ -42,7 +42,6 @@ struct OrderingView: View
 					*/
 					for scribble in parent.person.scribbes
 						{
-//						print(scribble.description)
 						let instance = Writing(context: moc)
 						instance.id = UUID()
 						instance.type = scribble.description
