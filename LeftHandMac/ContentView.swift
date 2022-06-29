@@ -158,7 +158,6 @@ struct ContentView: View
 		return items.first
 		}
 
-
 	var body: some View
 		{
 		ZStack
