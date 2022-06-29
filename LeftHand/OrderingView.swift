@@ -33,7 +33,7 @@ struct OrderingView: View
 					.resizable()
 					.aspectRatio(contentMode: .fit)
 					.frame(width:50)
-				Text("Please order your writings from most tidy (top) to least tidy (bottom).").font(.title)
+				Text("Please order your writings from most clear (top) to least clear (bottom).").font(.title)
 				Spacer()
 				Button("Done")
 					{
