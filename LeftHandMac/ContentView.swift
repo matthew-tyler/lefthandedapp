@@ -5,70 +5,115 @@ import SwiftUI
 import PencilKit
 import CoreData
 
-let UNKNOWN = "Unknown"
-
-class Originator: ObservableObject
+struct PersonView: View
 	{
-	@Published var pen_path : Writing? = nil
-	@Published var id: String = UNKNOWN
-	@Published var sex: String = UNKNOWN
-	@Published var age: String = UNKNOWN
-	@Published var handedness: String = UNKNOWN
-	@Published var writingHand: String = UNKNOWN
-	@Published var qualifications: String = UNKNOWN
-	@Published var authorRanking: [UUID] = []
+	@Environment(\.managedObjectContext) var moc
+	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
+	var person: Person
 
-	init()
-		{
-		rewind()
-		}
+func getImage(with id: UUID?) -> (NSImage?, Writing?)
+	{
+	guard let id = id else { return (nil, nil) }
+	let request = Writing.fetchRequest() as NSFetchRequest<Writing>
+	request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
+	guard let items = try? moc.fetch(request) else { return (nil, nil) }
 
-	func rewind()
-		{
-		pen_path = nil
-		id = UNKNOWN
-		sex = UNKNOWN
-		age = UNKNOWN
-		handedness = UNKNOWN
-		writingHand = UNKNOWN
-		qualifications = UNKNOWN
-		authorRanking = []
-		}
+	let imageData = items.first
+	let path = try! PKDrawing(data: imageData!.data!)
+	return (path.image(from: path.bounds, scale: 1), imageData)
 	}
-
-struct WritingView: View
-	{
-	var instance: Writing
-	var drawing: PKDrawing
-	var person: Person?
-	@EnvironmentObject var originator: Originator
 
 	var body: some View
 		{
-		Image(nsImage: drawing.image(from: originator.pen_path == nil ? PKDrawing().bounds : drawing.bounds, scale: 1)).frame(alignment: .topLeading)
-		.onAppear()
+		VStack
 			{
-			originator.pen_path = instance
-			if person == nil
+			let scaleFactor = 4.0
+			Spacer().frame(height:20)
+			HStack
 				{
-				originator.id = UNKNOWN
-				originator.age = UNKNOWN
-				originator.sex = UNKNOWN
-				originator.qualifications = UNKNOWN
-				originator.handedness = UNKNOWN
-				originator.writingHand = UNKNOWN
-				originator.authorRanking = []
+				Spacer()
+				Text("Id:" + person.id!.uuidString)
+				Text(" Age:" + person.age!)
+				Text(" Sex:" + person.sex!)
+				Text(" Qual:" + person.qualifications!)
+				Text(" Hand:" + person.handedness!)
+				Text(" Writer:" + person.handedness!)
+				Spacer()
 				}
-			else
+			Spacer().frame(height:20)
+			HStack(alignment: .lastTextBaseline)
 				{
-				originator.id = person!.id!.uuidString
-				originator.age = person!.age!
-				originator.sex = person!.sex!
-				originator.qualifications = person!.qualifications!
-				originator.handedness = person!.handedness!
-				originator.writingHand = person!.writinghand!
-				originator.authorRanking = person!.authorranks == nil ? [] : person!.authorranks!
+				VStack
+					{
+					let id = person.authorranks![0]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
+				VStack
+					{
+					let id = person.authorranks![1]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
+				VStack
+					{
+					let id = person.authorranks![2]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
+				VStack
+					{
+					let id = person.authorranks![3]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
 				}
+			Spacer().frame(height:20)
+			HStack(alignment: .lastTextBaseline)
+				{
+				VStack
+					{
+					let id = person.authorranks![4]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
+				VStack
+					{
+					let id = person.authorranks![5]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
+				VStack
+					{
+					let id = person.authorranks![6]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
+				VStack
+					{
+					let id = person.authorranks![7]
+					let (img, data) = getImage(with: id)
+					Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
+					Text("Id:" + id.uuidString)
+					Text(data!.type!)
+					}
+				}
+			Spacer().frame(height:20)
+			Spacer()
 			}
 		}
 	}
@@ -79,8 +124,7 @@ struct ContentView: View
 	@FetchRequest(sortDescriptors: [NSSortDescriptor(key: "person_id.description", ascending: true), NSSortDescriptor(keyPath: \Writing.type, ascending: true)]) var writing: FetchedResults<Writing>
 	@FetchRequest(sortDescriptors: []) var person: FetchedResults<Person>
 
-	@StateObject var originator = Originator()
-	@State var selection: Writing? = nil
+	@State var selection: Person? = nil
 
 	func getPerson(with id: UUID?) -> Person?
 		{
@@ -90,6 +134,16 @@ struct ContentView: View
 		guard let items = try? moc.fetch(request) else { return nil }
 		return items.first
 		}
+
+	func getImage(with id: UUID?) -> Writing?
+		{
+		guard let id = id else { return nil }
+		let request = Writing.fetchRequest() as NSFetchRequest<Writing>
+		request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
+		guard let items = try? moc.fetch(request) else { return nil }
+		return items.first
+		}
+
 
 	var body: some View
 		{
@@ -103,11 +157,15 @@ struct ContentView: View
 					{
 					Button("Delete")
 						{
-						if originator.pen_path != nil
+						if (self.selection != nil)
 							{
-							moc.delete(originator.pen_path!)
+							for image in self.selection!.authorranks!
+								{
+								moc.delete(getImage(with: image)!)
+								}
+							moc.delete(self.selection!)
+							self.selection = nil
 							try? moc.save()
-							originator.pen_path = nil
 							}
 						}
 					Spacer().frame(width: 20)
@@ -128,7 +186,6 @@ struct ContentView: View
 							moc.delete(instance)
 							}
 						try? moc.save()
-						originator.rewind()
 						}
 					Spacer().frame(width: 50)
 
@@ -170,13 +227,14 @@ struct ContentView: View
 								let png = NSBitmapImageRep(data: image.image(from: image.bounds, scale:1).tiffRepresentation!)!.representation(using: .png, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: 1.0])
 								try! png!.write(to: directory!.appendingPathComponent(instance.id!.uuidString + ".png"))
 								}
+
 							/*
 								Step through the authors list and write that out too
 							*/
-							let csv_filename = directory!.appendingPathComponent("people" + ".csv")
+							var csv_filename = directory!.appendingPathComponent("people" + ".csv")
 							FileManager.default.createFile(atPath: csv_filename.path, contents:"".data(using: .utf8))
-							let fp = try! FileHandle(forWritingTo: csv_filename)
-							let csv_heading: String = "id,age,sex,education,handedness,writing hand,1,2,3,4,5,6,7,8\n"
+							var fp = try! FileHandle(forWritingTo: csv_filename)
+							var csv_heading: String = "id,age,sex,education,handedness,writing hand,1,2,3,4,5,6,7,8\n"
 							fp.write(csv_heading.data(using: .utf8)!)
 							for instance in authors
 								{
@@ -189,34 +247,21 @@ struct ContentView: View
 								fp.write((serialised + "\n").data(using: .utf8)!)
 								}
 							fp.closeFile()
-							}
-						}
-					}
-				Divider()
-				HStack
-					{
-					Spacer()
-					Text("ID:" + originator.id)
-					Text(" Age:" + originator.age)
-					Text(" Sex:" + originator.sex)
-					Text(" Qual:" + originator.qualifications)
-					Text(" Hand:" + originator.handedness)
-					Text(" Writer:" + originator.writingHand)
-					Spacer()
-					}
-				HStack
-					{
-					Text("Order:")
-					if originator.authorRanking.count == 0
-						{
-						Text(UNKNOWN)
-						}
-					else
-						{
-						ForEach(originator.authorRanking, id: \.self )
-							{ id in
-							Text(id.uuidString)
-							Text(" > ")
+
+							/*
+								Step through the image list and write the meta-data
+							*/
+							csv_filename = directory!.appendingPathComponent("images" + ".csv")
+							FileManager.default.createFile(atPath: csv_filename.path, contents:"".data(using: .utf8))
+							fp = try! FileHandle(forWritingTo: csv_filename)
+							csv_heading = "id,author,orientation,grip,hand\n"
+							fp.write(csv_heading.data(using: .utf8)!)
+							for instance in writing
+								{
+								let serialised: String = instance.id!.uuidString + "," + instance.person_id!.uuidString + "," + instance.type! + "\n"
+								fp.write((serialised).data(using: .utf8)!)
+								}
+							fp.closeFile()
 							}
 						}
 					}
@@ -227,12 +272,11 @@ struct ContentView: View
 						{
 						List(selection: $selection)
 							{
-							ForEach(writing, id: \.self)
+							ForEach(person, id: \.self)
 								{instance in
-								let got = try! PKDrawing(data: instance.data!)
-								NavigationLink(destination: WritingView(instance: instance, drawing: got, person: instance.person_id == nil ? nil : getPerson(with:instance.person_id!)).environmentObject(originator))
+								NavigationLink(destination: PersonView(person: instance))
 									{
-									Text(instance.type ?? UNKNOWN)
+									Text(instance.id!.uuidString)
 									}
 								}
 							}
@@ -251,8 +295,8 @@ struct ContentView: View
 								}
 							controller.splitViewItems.first?.canCollapse = false
 							controller.splitViewItems.first?.isCollapsed = false
-							controller.splitViewItems.first?.minimumThickness = 300
-							controller.splitViewItems.first?.maximumThickness = 300
+							controller.splitViewItems.first?.minimumThickness = 330
+							controller.splitViewItems.first?.maximumThickness = 330
 							}
 						}
 					.frame(minWidth:250, alignment: .leading)

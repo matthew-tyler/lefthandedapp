@@ -4,11 +4,58 @@
 import SwiftUI
 import PencilKit
 
+
+
+// How to use:
+// var conditions = ["A", "B", "C", "D"];
+// balancedLatinSquare(conditions, 0)  //=> ["A", "B", "D", "C"]
+// balancedLatinSquare(conditions, 1)  //=> ["B", "C", "A", "D"]
+// balancedLatinSquare(conditions, 2)  //=> ["C", "D", "B", "A"]
+// ...
+// from:
+// https://cs.uwaterloo.ca/~dmasson/tools/latin_square/
+// ...
+// NOTE:  Odd numbers need twice as many rows to be fully ballanced
+func balancedLatinSquare(_ array: [String], _ participantId: Int) -> [String]
+	{
+	var result: [String] = []
+	// Based on "Bradley, J. V. Complete counterbalancing of immediate sequential effects in a Latin square design. J. Amer. Statist. Ass.,.1958, 53, 525-528. "
+	var j = 0, h = 0
+
+	for i in 0 ..< array.count
+		{
+		var val = 0
+		if (i < 2 || i % 2 != 0)
+			{
+			val = j
+			j = j + 1
+			}
+		else
+			{
+			val = array.count - h - 1
+			h = h + 1
+			}
+
+		let idx = (val + participantId) % array.count
+		result.append(array[idx])
+		}
+
+	if (array.count % 2 != 0 && participantId % 2 != 0)
+		{
+		result.reverse()
+		}
+
+	return result
+	}
+
 struct ContentView: View
 	{
+	@Environment(\.managedObjectContext) var moc
+	@FetchRequest(sortDescriptors: []) var person: FetchedResults<Person>
+
 	@State var parent: LeftHandApp
 
-	let message =
+	let unSquaredMessage =
 		[
 		"Horizontal, Small Grip, Right Hand",
 		"Horizontal, Small Grip, Left Hand",
@@ -19,7 +66,7 @@ struct ContentView: View
 		"Vertical, Large Grip, Right Hand",
 		"Vertical, Large Grip, Left Hand",
 		]
-		
+
 	@State var current_message : Int = 0
 	@State private var canvasView = PKCanvasView()
 
@@ -42,7 +89,7 @@ struct ContentView: View
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.frame(width:50)
-					Text("Please write " + message[current_message]).font(.title)
+					Text("Please write " + balancedLatinSquare(unSquaredMessage, person.count)[current_message]).font(.title)
 					Spacer()
 					Button("Clear")
 						{
@@ -57,8 +104,8 @@ struct ContentView: View
 						Spacer().frame(width:20)
 						Button("Save")
 							{
-							parent.person.scribbes[current_message] = Drawing(description: message[current_message], path: canvasView.drawing)
-							current_message = (current_message + 1) % message.count
+							parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing)
+							current_message = (current_message + 1) % unSquaredMessage.count
 
 							if current_message == 0
 								{
@@ -71,18 +118,6 @@ struct ContentView: View
 							.background(Color.blue.opacity(0.5))
 							.clipShape(RoundedRectangle(cornerRadius: 5))
 						}
-//					Group
-//						{
-//						Spacer().frame(width:20)
-//						Button("Back...")
-//							{
-//							parent.coordinator.screen = Screen.demographics
-//							}
-//							.padding()
-//							.foregroundColor(.white)
-//							.background(Color.blue.opacity(0.5))
-//							.clipShape(RoundedRectangle(cornerRadius: 5))
-//						}
 					Group
 						{
 						Spacer().frame(width:20)
