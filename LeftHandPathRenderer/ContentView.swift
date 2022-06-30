@@ -7,12 +7,12 @@ import PencilKit
 
 class Parser
 	{
-	var document: String = ""
+	var document: [Character] = Array(String(""))
 	var current: Int = 0
 
 	init(document: String)
 		{
-		self.document = document
+		self.document = Array(document)
 		current = 0
 		}
 
@@ -31,7 +31,7 @@ class Parser
 			{
 			return ""
 			}
-		while !isUsable(document[document.index(document.startIndex, offsetBy: current)])
+		while !isUsable(document[current])
 			{
 			current = current + 1
 			if (current >= document.count)
@@ -41,7 +41,7 @@ class Parser
 			}
 
 		let start = current
-		while isUsable(document[document.index(document.startIndex, offsetBy: current)])
+		while isUsable(document[current])
 			{
 			current = current + 1
 			if (current >= document.count)
@@ -85,9 +85,7 @@ struct ContentView: View
 				{
 				if (path.count != 0)
 					{
-					let strokePath = PKStrokePath(controlPoints: path, creationDate: Date())
-					let stroke = PKStroke(ink: PKInk(.pen, color: .black), path: strokePath)
-					imageDescription.append(stroke)
+					imageDescription.append(PKStroke(ink: PKInk(.pen, color: .black), path: PKStrokePath(controlPoints: path, creationDate: Date())))
 					path = []
 					}
 				}
@@ -142,12 +140,8 @@ struct ContentView: View
 			}
 		while (true)
 
-
-		let strokePath = PKStrokePath(controlPoints: path, creationDate: Date())
-		let stroke = PKStroke(ink: PKInk(.pen, color: .black), path: strokePath)
-		imageDescription.append(stroke)
+		imageDescription.append(PKStroke(ink: PKInk(.pen, color: .black), path: PKStrokePath(controlPoints: path, creationDate: Date())))
 		let drawing = PKDrawing(strokes: imageDescription)
-
 		return drawing.image(from: drawing.bounds, scale: 1)
 		}
 
