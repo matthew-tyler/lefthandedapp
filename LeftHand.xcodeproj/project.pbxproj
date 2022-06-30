@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		495D505F286D1B52005786E2 /* LeftHandPathRendererApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495D505E286D1B52005786E2 /* LeftHandPathRendererApp.swift */; };
+		495D5061286D1B52005786E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 495D5060286D1B52005786E2 /* ContentView.swift */; };
+		495D5063286D1B54005786E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 495D5062286D1B54005786E2 /* Assets.xcassets */; };
+		495D5066286D1B54005786E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 495D5065286D1B54005786E2 /* Preview Assets.xcassets */; };
 		499D441B28596A69008F8D38 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499D441A28596A69008F8D38 /* CloudKit.framework */; };
 		499D442428596C04008F8D38 /* LeftHandMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D442328596C04008F8D38 /* LeftHandMacApp.swift */; };
 		499D442628596C04008F8D38 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499D442528596C04008F8D38 /* ContentView.swift */; };
@@ -29,6 +33,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		495D505C286D1B52005786E2 /* LeftHandPathRenderer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeftHandPathRenderer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		495D505E286D1B52005786E2 /* LeftHandPathRendererApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftHandPathRendererApp.swift; sourceTree = "<group>"; };
+		495D5060286D1B52005786E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		495D5062286D1B54005786E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		495D5065286D1B54005786E2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		495D5067286D1B54005786E2 /* LeftHandPathRenderer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftHandPathRenderer.entitlements; sourceTree = "<group>"; };
 		499D441828596A60008F8D38 /* LeftHand.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftHand.entitlements; sourceTree = "<group>"; };
 		499D441A28596A69008F8D38 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		499D441C28596A7F008F8D38 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -56,6 +66,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		495D5059286D1B52005786E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		499D441E28596C04008F8D38 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -75,6 +92,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		495D505D286D1B52005786E2 /* LeftHandPathRenderer */ = {
+			isa = PBXGroup;
+			children = (
+				495D505E286D1B52005786E2 /* LeftHandPathRendererApp.swift */,
+				495D5060286D1B52005786E2 /* ContentView.swift */,
+				495D5062286D1B54005786E2 /* Assets.xcassets */,
+				495D5067286D1B54005786E2 /* LeftHandPathRenderer.entitlements */,
+				495D5064286D1B54005786E2 /* Preview Content */,
+			);
+			path = LeftHandPathRenderer;
+			sourceTree = "<group>";
+		};
+		495D5064286D1B54005786E2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				495D5065286D1B54005786E2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		499D441928596A69008F8D38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +148,7 @@
 			children = (
 				49FA6C7128498EB2008F4F77 /* LeftHand */,
 				499D442228596C04008F8D38 /* LeftHandMac */,
+				495D505D286D1B52005786E2 /* LeftHandPathRenderer */,
 				49FA6C7028498EB2008F4F77 /* Products */,
 				499D441928596A69008F8D38 /* Frameworks */,
 			);
@@ -121,6 +159,7 @@
 			children = (
 				49FA6C6F28498EB2008F4F77 /* LeftHand.app */,
 				499D442128596C04008F8D38 /* LeftHandMac.app */,
+				495D505C286D1B52005786E2 /* LeftHandPathRenderer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -156,6 +195,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		495D505B286D1B52005786E2 /* LeftHandPathRenderer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 495D506A286D1B54005786E2 /* Build configuration list for PBXNativeTarget "LeftHandPathRenderer" */;
+			buildPhases = (
+				495D5058286D1B52005786E2 /* Sources */,
+				495D5059286D1B52005786E2 /* Frameworks */,
+				495D505A286D1B52005786E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LeftHandPathRenderer;
+			productName = LeftHandPathRenderer;
+			productReference = 495D505C286D1B52005786E2 /* LeftHandPathRenderer.app */;
+			productType = "com.apple.product-type.application";
+		};
 		499D442028596C04008F8D38 /* LeftHandMac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 499D443228596C05008F8D38 /* Build configuration list for PBXNativeTarget "LeftHandMac" */;
@@ -200,6 +256,9 @@
 				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					495D505B286D1B52005786E2 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					499D442028596C04008F8D38 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -223,11 +282,21 @@
 			targets = (
 				49FA6C6E28498EB2008F4F77 /* LeftHand */,
 				499D442028596C04008F8D38 /* LeftHandMac */,
+				495D505B286D1B52005786E2 /* LeftHandPathRenderer */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		495D505A286D1B52005786E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				495D5066286D1B54005786E2 /* Preview Assets.xcassets in Resources */,
+				495D5063286D1B54005786E2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		499D441F28596C04008F8D38 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +319,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		495D5058286D1B52005786E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				495D5061286D1B52005786E2 /* ContentView.swift in Sources */,
+				495D505F286D1B52005786E2 /* LeftHandPathRendererApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		499D441D28596C04008F8D38 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -279,6 +357,64 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		495D5068286D1B54005786E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LeftHandPathRenderer/LeftHandPathRenderer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LeftHandPathRenderer/Preview Content\"";
+				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandPathRenderer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		495D5069286D1B54005786E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LeftHandPathRenderer/LeftHandPathRenderer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LeftHandPathRenderer/Preview Content\"";
+				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandPathRenderer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		499D443328596C05008F8D38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -518,6 +654,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		495D506A286D1B54005786E2 /* Build configuration list for PBXNativeTarget "LeftHandPathRenderer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				495D5068286D1B54005786E2 /* Debug */,
+				495D5069286D1B54005786E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		499D443228596C05008F8D38 /* Build configuration list for PBXNativeTarget "LeftHandMac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
