@@ -27,7 +27,7 @@ final class AppCoordinator: ObservableObject
 
 struct Drawing : Identifiable, Equatable
 	{
-   let id = UUID()
+    let id = UUID()
 	var description : String = ""
 	var path = PKDrawing()
 

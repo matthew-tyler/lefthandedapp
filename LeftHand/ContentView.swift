@@ -82,13 +82,14 @@ struct ContentView: View
 			MyCanvas(canvasView: $canvasView)
 			VStack
 				{
+                    Spacer()
 				HStack
 					{
 					Spacer().frame(width: 50)
 					Image("OtagoLogo")
 						.resizable()
 						.aspectRatio(contentMode: .fit)
-						.frame(width:50)
+                        .frame(width:50, height:83, alignment: .center)
 					Text("Please write " + balancedLatinSquare(unSquaredMessage, person.count)[current_message]).font(.title)
 					Spacer()
 					Button("Clear")

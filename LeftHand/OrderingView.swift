@@ -24,15 +24,17 @@ struct OrderingView: View
 
     var body: some View
 		{
+        
 		VStack
 			{
+ 
 			HStack
 				{
 				Spacer().frame(width: 50)
 				Image("OtagoLogo")
 					.resizable()
 					.aspectRatio(contentMode: .fit)
-					.frame(width:50)
+                    .frame(width:50, height:83, alignment: .center)
 				Text("Please order from most clear (top) to least clear (bottom).").font(.title)
 				Spacer()
 				Button("Done")
@@ -50,6 +52,8 @@ struct OrderingView: View
 						parent.person.authorRanking.append(instance.id!)
 						}
 
+                        
+                   
 					/*
 						Write the user details
 					*/

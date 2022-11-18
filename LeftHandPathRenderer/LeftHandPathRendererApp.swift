@@ -10,7 +10,7 @@ struct LeftHandPathRendererApp: App
 		{
 		WindowGroup
 			{
-			ContentView()
+                ContentView().preferredColorScheme(.light)
 			}
 		}
 	}

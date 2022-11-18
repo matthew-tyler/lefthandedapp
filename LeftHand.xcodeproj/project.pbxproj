@@ -30,6 +30,7 @@
 		49FA6C8128498F02008F4F77 /* MyCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C8028498F02008F4F77 /* MyCanvas.swift */; };
 		49FA6C842849AD42008F4F77 /* LeftHand.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C822849AD42008F4F77 /* LeftHand.xcdatamodeld */; };
 		49FA6C862849AE42008F4F77 /* DataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C852849AE42008F4F77 /* DataContainer.swift */; };
+		C927EC432921B2C8005E3C94 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C927EC422921B2C8005E3C94 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		49FA6C8028498F02008F4F77 /* MyCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCanvas.swift; sourceTree = "<group>"; };
 		49FA6C832849AD42008F4F77 /* Store.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Store.xcdatamodel; sourceTree = "<group>"; };
 		49FA6C852849AE42008F4F77 /* DataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContainer.swift; sourceTree = "<group>"; };
+		C927EC422921B2C8005E3C94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				499D442C28596C05008F8D38 /* Persistence.swift */,
 				499D443128596C05008F8D38 /* LeftHandMac.entitlements */,
 				499D442928596C05008F8D38 /* Preview Content */,
+				C927EC422921B2C8005E3C94 /* Info.plist */,
 			);
 			path = LeftHandMac;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			files = (
 				499D442B28596C05008F8D38 /* Preview Assets.xcassets in Resources */,
 				499D442828596C05008F8D38 /* Assets.xcassets in Resources */,
+				C927EC432921B2C8005E3C94 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +371,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LeftHandPathRenderer/Preview Content\"";
-				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				DEVELOPMENT_TEAM = GGB9YP4HDW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -378,7 +382,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandPathRenderer;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandPathRenderer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -396,7 +400,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LeftHandPathRenderer/Preview Content\"";
-				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				DEVELOPMENT_TEAM = GGB9YP4HDW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -407,7 +411,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandPathRenderer;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandPathRenderer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -421,11 +425,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LeftHandMac/LeftHandMac.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LeftHandMac/Preview Content\"";
-				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				DEVELOPMENT_TEAM = GGB9YP4HDW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -436,8 +441,9 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandMac;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandMac1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -450,11 +456,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LeftHandMac/LeftHandMac.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LeftHandMac/Preview Content\"";
-				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				DEVELOPMENT_TEAM = GGB9YP4HDW;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -465,8 +472,9 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandMac;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHandMac1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -595,10 +603,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LeftHand/LeftHand.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LeftHand/Preview Content\"";
-				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				DEVELOPMENT_TEAM = GGB9YP4HDW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeftHand/Info.plist;
@@ -612,8 +621,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHand;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHand1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -626,10 +636,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LeftHand/LeftHand.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LeftHand/Preview Content\"";
-				DEVELOPMENT_TEAM = JL2ZYSYD53;
+				DEVELOPMENT_TEAM = GGB9YP4HDW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeftHand/Info.plist;
@@ -643,8 +654,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHand;
+				PRODUCT_BUNDLE_IDENTIFIER = aspt.LeftHand1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

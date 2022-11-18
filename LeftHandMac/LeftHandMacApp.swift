@@ -12,7 +12,7 @@ struct LeftHandMacApp: App
 		{
 		WindowGroup
 			{
-			ContentView().environment(\.managedObjectContext, persistenceController.container.viewContext)
+                ContentView().preferredColorScheme(.light).environment(\.managedObjectContext, persistenceController.container.viewContext)
 			}
 		}
 	}
