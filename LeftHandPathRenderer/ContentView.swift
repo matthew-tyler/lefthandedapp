@@ -5,6 +5,8 @@
 import SwiftUI
 import PencilKit
 
+import Charts
+
 class Parser
 	{
 	var document: [Character] = Array(String(""))
@@ -58,12 +60,26 @@ class Parser
 
 struct ContentView: View
 	{
+    
+    
+    @State var drawing: PKDrawing = PKDrawing()
 	@State var picture: NSImage = NSImage()
-	@State var parser = Parser(document: "")
+    @State var parser = Parser(document: "")
+    
+    
+    @State var data : [Fourier.v_point] = []
+    @State var transformed : [Float] = []
+    
+    @State  var toPlot : [Mark] = []
+    
+    var fft = Fourier()
+    
 
-	func loadImage(_ filename: URL?) -> NSImage
+	func loadDrawing(_ filename: URL?) -> PKDrawing
 		{
-		let image = NSImage()
+            
+		let image = PKDrawing()
+            
 		if filename == nil
 			{
 			return image
@@ -142,30 +158,111 @@ struct ContentView: View
 
 		imageDescription.append(PKStroke(ink: PKInk(.pen, color: .black), path: PKStrokePath(controlPoints: path, creationDate: Date())))
 		let drawing = PKDrawing(strokes: imageDescription)
-		return drawing.image(from: drawing.bounds, scale: 1)
+		return drawing
 		}
+    
+    
+    
+    func setPicture(_ drawing: PKDrawing) -> NSImage {
+        
+        return drawing.image(from: drawing.bounds, scale: 1)
+    }
+    
+    struct Mark: Identifiable{
+        let id = UUID()
+        let x : Float
+        let y : Float
+        
+    }
+    
+    func makePlotable(_ arr: [Float]) -> [Mark]{
+        var count = Float(-1.0);
+        
+        let midpoint   = arr.count / 4
+        
+        let halfArr  = arr [..<midpoint]
+        
+        let first = arr.first
+        
+        var out = halfArr.map{ count+=1.0; return  Mark(x : count, y : ($0 / first!) );  }
+        
+   
+        out.removeFirst()
+        
+        
+        return out
+        
+    }
+    
+    
 
+    
+
+    
 	var body: some View
 		{
 		VStack
 	 		{
 			Spacer().frame(height:20)
-	 		Button("Load")
-	 			{
-				let panel = NSOpenPanel()
-				panel.allowsMultipleSelection = false
-				panel.canCreateDirectories = false
-				panel.canChooseDirectories = false
-				panel.canChooseFiles = true
-				panel.allowedFileTypes = ["txt"]
-				if panel.runModal() == .OK
-					{
-					picture = loadImage(panel.url?.absoluteURL)
-					}
-	 			}
+                
+                HStack{
+                    Button("Load")
+                    {
+                        let panel = NSOpenPanel()
+                        panel.allowsMultipleSelection = false
+                        panel.canCreateDirectories = false
+                        panel.canChooseDirectories = false
+                        panel.canChooseFiles = true
+                        panel.allowedFileTypes = ["txt"]
+                        if panel.runModal() == .OK
+                        {
+                            drawing = loadDrawing(panel.url?.absoluteURL)
+                            picture = setPicture(drawing)
+                        }
+                    }
+                    
+                    Button("FFT"){
+                        
+                        data = fft.vectorise(drawing);
+                        
+                        
+                        transformed = fft.transform(data)
+                        
+                        toPlot = makePlotable(transformed)
+           
+                    }
+                }
 			Spacer().frame(height:20)
 			Image(nsImage: picture).resizable().scaledToFit()
-			Spacer()
+                
+                Spacer()
+               
+                if #available(macOS 13.0, *) {
+                    Chart(data){
+                        LineMark( x: .value("time",$0.time), y: .value("Distance", $0.distance))
+                        
+                    }
+                } else {
+                    // Fallback on earlier versions
+                }
+                
+                Spacer()
+                if #available(macOS 13.0, *) {
+
+ 
+                    Chart(toPlot){
+                        
+                        BarMark(
+                            x: .value("F", $0.x),
+                                      y: .value("Profit", $0.y)
+                        )
+
+                    }
+                } else {
+                    // Fallback on earlier versions
+                }
+
+                
 			}
 		}
 	}
