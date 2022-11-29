@@ -68,7 +68,7 @@ struct ContentView: View
 		]
 
 	@State var current_message : Int = 0
-	@State private var canvasView = PKCanvasView()
+	@State private var canvasView = PredictiveCanvasview()
 
 	init(_ parent: LeftHandApp)
 		{
@@ -95,6 +95,8 @@ struct ContentView: View
 					Button("Clear")
 						{
 						canvasView.drawing = PKDrawing()
+                        canvasView.strokeCollection = StrokeCollection()
+                         
 						}
 						.padding()
 						.foregroundColor(.white)

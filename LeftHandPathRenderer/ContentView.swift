@@ -180,14 +180,27 @@ struct ContentView: View
         
         let midpoint   = arr.count / 4
         
-        let halfArr  = arr [..<midpoint]
+        var halfArr  = arr [..<midpoint]
         
-        let first = arr.first
         
-        var out = halfArr.map{ count+=1.0; return  Mark(x : count, y : ($0 / first!) );  }
+        let mean = arr.first
+        
+        halfArr.removeFirst()
+        
+        let minusMean = halfArr.map(){ $0 - mean!}
+        
+        var sum = minusMean.reduce(0,+)
+        
+        sum = pow(sum,2)
+        
+        let stdDev = sqrt((sum / Float(halfArr.count)))
+        
+        
+        var out = halfArr.map{ count+=1.0; return  Mark(x : count, y : ($0 / mean! ) );  }
         
    
-        out.removeFirst()
+        
+      
         
         
         return out
