@@ -49,6 +49,9 @@ final class User
 	var scribbes: [Drawing] = []
 	var authorRanking: [UUID] = []
 	var latinSquareOrder: Int32 = UNKNOWN_ORDER
+    
+    // The pen samples as collected from the predictive canvas
+    var writingSamples: [StrokeCollection] = []
 
 	init()
 		{

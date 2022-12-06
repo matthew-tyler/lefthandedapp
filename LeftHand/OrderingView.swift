@@ -51,8 +51,31 @@ struct OrderingView: View
 						instance.person_id = parent.person.id
 						parent.person.authorRanking.append(instance.id!)
 						}
-
                         
+                        
+                    /*
+                     *  Write un coalesced and predicted samples to DB
+                     *
+                     */
+                        
+                        var data = Data()
+                        
+                        for writingSample in parent.person.writingSamples{
+                            
+                            let id = "Sample: " + UUID().description + "\n"
+                            
+                            data.append(id.data(using: .utf8)!)
+                            data.append(writingSample.asData())
+                            
+                        }
+                        
+                        
+                        let writingSamplesInstance = BinaryWritingSamples(context: moc)
+                        
+                        writingSamplesInstance.samples = data
+                        writingSamplesInstance.id = parent.person.id
+                        
+
                    
 					/*
 						Write the user details

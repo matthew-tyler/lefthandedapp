@@ -242,6 +242,8 @@ struct ContentView: View
                         transformed = fft.transform(data)
                         
                         toPlot = makePlotable(transformed)
+                        
+                        
            
                     }
                 }

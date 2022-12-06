@@ -17,120 +17,120 @@ func dateToString(date: Date?) -> String
     return dateFormatter.string(from: date!)
 }
 
-extension ScoreSelector
-{
-    @MainActor class ScoreSelectorModel: ObservableObject
-    {
-        @Published var rating: Int = 0
+//extension ScoreSelector
+//{
+//    @MainActor class ScoreSelectorModel: ObservableObject
+//    {
+//        @Published var rating: Int = 0
+//
+//        @Published var id: UUID
+//
+//        @Published var moc: NSManagedObjectContext
+//
+//        init(id: UUID, moc : NSManagedObjectContext)
+//        {
+//            self.id = id
+//            self.moc = moc
+//
+//            let exisitngScore = getScore("Matt")
+//
+//            if exisitngScore != nil
+//            {
+//                _rating = Published(initialValue: Int(exisitngScore!.points))
+//            }
+//
+//
+//        }
         
-        @Published var id: UUID
-         
-        @Published var moc: NSManagedObjectContext
+//
+//        func setScore(_ tag: Int)
+//        {
+//            let check = getScore("Matt")
+//
+//            if check != nil
+//            {
+//                check!.points = Int16(tag)
+//
+//                return
+//            }
+//            else
+//            {
+//                do
+//                {
+////                    let score = Score(context: moc)
+////                    score.scorer = Scorers(context: moc)
+////
+////                    let request = Writing.fetchRequest() as NSFetchRequest<Writing>
+////                    request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
+////
+////                    let writingSample = try moc.fetch(request)
+////
+////                    score.points = Int16(tag)
+////                    score.scorer!.name = "Matt"
+////                    score.writingSample = writingSample.first
+//                }
+//                catch {}
+//            }
+//
+//            try? moc.save()
+//        }
         
-        init(id: UUID, moc : NSManagedObjectContext)
-        {
-            self.id = id
-            self.moc = moc
-            
-            let exisitngScore = getScore("Matt")
-            
-            if exisitngScore != nil
-            {
-                _rating = Published(initialValue: Int(exisitngScore!.points))
-            }
-            
-            
-        }
-        
-        
-        func setScore(_ tag: Int)
-        {
-            let check = getScore("Matt")
-            
-            if check != nil
-            {
-                check!.points = Int16(tag)
-       
-                return
-            }
-            else
-            {
-                do
-                {
-                    let score = Score(context: moc)
-                    score.scorer = Scorers(context: moc)
-                    
-                    let request = Writing.fetchRequest() as NSFetchRequest<Writing>
-                    request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
-                    
-                    let writingSample = try moc.fetch(request)
-                    
-                    score.points = Int16(tag)
-                    score.scorer!.name = "Matt"
-                    score.writingSample = writingSample.first
-                }
-                catch {}
-            }
-            
-            try? moc.save()
-        }
-        
-        func getScore(_ name: String) -> Score?
-        {
-            let request = Score.fetchRequest() as NSFetchRequest<Score>
-            request.predicate = NSPredicate(format: "scorer.name = %@ AND writingSample.id = %@", name, id as CVarArg)
-                
-            guard let scorer = try? moc.fetch(request) else { return nil }
+//        func getScore(_ name: String) -> Score?
+//        {
+//            let request = Score.fetchRequest() as NSFetchRequest<Score>
+//            request.predicate = NSPredicate(format: "scorer.name = %@ AND writingSample.id = %@", name, id as CVarArg)
+//                
+//            guard let scorer = try? moc.fetch(request) else { return nil }
+//
+//            return scorer.first
+//        }
+//    }
+//}
 
-            return scorer.first
-        }
-    }
-}
-
-struct ScoreSelector: View
-{
-    @StateObject private var viewModel : ScoreSelectorModel
-    
-    var id: UUID
-     
-    var moc: NSManagedObjectContext
-
-    init(id: UUID, moc: NSManagedObjectContext)
-    {
-        self.id = id
-        
-        self.moc = moc
-        
-        _viewModel = StateObject(wrappedValue: ScoreSelectorModel(id: id, moc: moc));
-    }
-   
-    var body: some View
-    {
-        
-        Picker("Rating", selection: $viewModel.rating)
-        {
-            Group
-            {
-                Text("0").tag(0)
-                Text("1").tag(1)
-                Text("2").tag(2)
-                Text("3").tag(3)
-                Text("4").tag(4)
-            }
-            
-            Group
-            {
-                Text("5").tag(5)
-                Text("6").tag(6)
-                Text("7").tag(7)
-                Text("8").tag(8)
-                Text("9").tag(9)
-                Text("10").tag(10)
-            }
-            
-        }.pickerStyle(SegmentedPickerStyle()).onChange(of: self.viewModel.rating) { tag in viewModel.setScore(tag) }
-    }
-}
+//struct ScoreSelector: View
+//{
+//    @StateObject private var viewModel : ScoreSelectorModel
+//
+//    var id: UUID
+//
+//    var moc: NSManagedObjectContext
+//
+//    init(id: UUID, moc: NSManagedObjectContext)
+//    {
+//        self.id = id
+//
+//        self.moc = moc
+//
+//        _viewModel = StateObject(wrappedValue: ScoreSelectorModel(id: id, moc: moc));
+//    }
+//
+//    var body: some View
+//    {
+//
+//        Picker("Rating", selection: $viewModel.rating)
+//        {
+//            Group
+//            {
+//                Text("0").tag(0)
+//                Text("1").tag(1)
+//                Text("2").tag(2)
+//                Text("3").tag(3)
+//                Text("4").tag(4)
+//            }
+//
+//            Group
+//            {
+//                Text("5").tag(5)
+//                Text("6").tag(6)
+//                Text("7").tag(7)
+//                Text("8").tag(8)
+//                Text("9").tag(9)
+//                Text("10").tag(10)
+//            }
+//
+//        }.pickerStyle(SegmentedPickerStyle()).onChange(of: self.viewModel.rating) { tag in viewModel.setScore(tag) }
+//    }
+//}
 
 struct PersonView: View
 {
@@ -297,6 +297,29 @@ struct ContentView: View
                             moc.delete(instance)
                         }
                         try? moc.save()
+                    }
+                    
+                    Spacer().frame(width: 50)
+                    
+                    Button("The Button"){
+                        
+                        let req = BinaryWritingSamples.fetchRequest()
+                    
+                            
+                        let samples = try? moc.fetch(req)
+                        
+                        
+                        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                        
+                            
+                        let filename = paths[0].appendingPathComponent("output.txt")
+                        
+                        print(filename)
+                        try? samples?.last?.samples?.write(to: filename)
+                       
+                       
+                        
+                        
                     }
                     Spacer().frame(width: 50)
 

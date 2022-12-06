@@ -109,13 +109,19 @@ struct ContentView: View
 							{
 							parent.person.latinSquareOrder = Int32(person.count)
 							parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing)
+                                
+                            parent.person.writingSamples.append(canvasView.strokeCollection!)
+                                
+                                
 							current_message = (current_message + 1) % unSquaredMessage.count
 
 							if current_message == 0
 								{
 								parent.coordinator.screen = Screen.order
 								}
+                                
 							canvasView.drawing = PKDrawing()
+                            canvasView.strokeCollection = StrokeCollection()
 							}
 							.padding()
 							.foregroundColor(.white)
