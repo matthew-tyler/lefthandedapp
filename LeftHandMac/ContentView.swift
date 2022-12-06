@@ -314,7 +314,6 @@ struct ContentView: View
                             
                         let filename = paths[0].appendingPathComponent("output.txt")
                         
-                        print(filename)
                         try? samples?.last?.samples?.write(to: filename)
                        
                        

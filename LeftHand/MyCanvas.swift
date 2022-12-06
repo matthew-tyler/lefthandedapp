@@ -21,8 +21,6 @@ struct MyCanvas: UIViewRepresentable {
     }
 }
 
-
- 
 struct PenSample {
     // Always.
     let timestamp: TimeInterval
@@ -80,41 +78,31 @@ struct PenSample {
 }
 
 struct StrokeSample {
-    
     let sample: PenSample
     var predictedSamples: [PenSample] = []
     
     func asData() -> Data {
-
         var utf8StrokeSample = sample.asData()
 
         for predictedSample in predictedSamples {
-            
             utf8StrokeSample.append(predictedSample.asData())
         }
 
         return utf8StrokeSample
     }
-    
 }
 
-
 public class Stroke {
-    
     var samples = [StrokeSample]()
     
-
     func add(sample: StrokeSample) {
         samples.append(sample)
     }
     
-
-    func asData() -> Data{
-
+    func asData() -> Data {
         var strokeUTF8 = "Stroke\n".data(using: .utf8)
 
         for sample in samples {
-            
             strokeUTF8?.append(sample.asData())
         }
 
@@ -123,7 +111,6 @@ public class Stroke {
 }
 
 class StrokeCollection {
-    
     var strokes = [Stroke]()
     var activeStroke: Stroke?
     var activeStrokeInitalTimeStamp: TimeInterval?
@@ -136,14 +123,11 @@ class StrokeCollection {
     }
     
     func asData() -> Data {
-
         var utf8StrokeCollection = Data()
 
         for stroke in strokes {
-
             utf8StrokeCollection.append(stroke.asData())
         }
-
 
         return utf8StrokeCollection
     }
@@ -159,7 +143,6 @@ class PredictiveCanvasview: PKCanvasView {
         }
     }
     
-    
     // Touch Handling methods
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Create a new stroke and make it the active stroke.
@@ -169,135 +152,91 @@ class PredictiveCanvasview: PKCanvasView {
         // The view does not support multitouch, so get the samples
         //  for only the first touch in the event.
         
-        
         let predictedTouches = event?.predictedTouches(for: touches.first!)
-        
-        
+        strokeCollection?.activeStrokeInitalTimeStamp = touches.first!.timestamp
+        addSamples(for: touches.first!, and: predictedTouches)
         
         if let coalesced = event?.coalescedTouches(for: touches.first!) {
-
-            strokeCollection?.activeStrokeInitalTimeStamp = touches.first!.timestamp
-           
-            for touch in coalesced {
-                
-
-                
-                addSamples(for: touch, and: predictedTouches)
-                        
+ 
+            for touch in 0...coalesced.endIndex - 1 {
+                addSamples(for: coalesced[touch])
             }
-           
         }
-        
-
+        super.touchesBegan(touches, with: event)
     }
     
-
-    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-                
         let predictedTouches = event?.predictedTouches(for: touches.first!)
+        addSamples(for: touches.first!, and: predictedTouches)
         
-        
-//        print(Unmanaged<AnyObject>.passUnretained(touches.first! as AnyObject).toOpaque(),touches.first!)
-//        print(Unmanaged<AnyObject>.passUnretained(test as AnyObject).toOpaque(),test)
-        
-        
-        
-            
- 
         if let coalesced = event?.coalescedTouches(for: touches.first!) {
-            
-       
-            for touch in coalesced {
-
-                addSamples(for: touch, and: predictedTouches)
-                
-                        
+            for touch in 0...coalesced.endIndex - 1 {
+                addSamples(for: coalesced[touch])
             }
-            
-          
         }
+        super.touchesMoved(touches, with: event)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         let predictedTouches = event?.predictedTouches(for: touches.first!)
+        addSamples(for: touches.first!, and: predictedTouches)
+
         
         if let coalesced = event?.coalescedTouches(for: touches.first!) {
-            
-            for touch in coalesced {
-                
-                addSamples(for: touch, and: predictedTouches)
-                        
+            for touch in 0...coalesced.endIndex - 1 {
+                addSamples(for: coalesced[touch])
             }
-           
+            
             strokeCollection?.acceptActiveStroke()
         }
-        
+        super.touchesEnded(touches, with: event)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Clear the last stroke.
         strokeCollection?.activeStroke = nil
+        super.touchesCancelled(touches, with: event)
     }
     
-    
-    
-    func addSamples(for touch: UITouch, and predictedTouches: [UITouch]? = nil ) {
-        
-        
+    func addSamples(for touch: UITouch, and predictedTouches: [UITouch]? = nil) {
         if let stroke = strokeCollection?.activeStroke {
-            
             let initialTimeStamp = strokeCollection?.activeStrokeInitalTimeStamp
-            
             
             let sample = PenSample(timestamp: touch.timestamp - initialTimeStamp!, totalElapsedTime: touch.timestamp, location: touch.preciseLocation(in: self), coalesced: false, force: touch.force, azimuth: touch.azimuthAngle(in: self), altitude: touch.altitudeAngle, estimatedProperties: touch.estimatedProperties, estimatedPropertiesExpectingUpdates: touch.estimatedPropertiesExpectingUpdates)
              
             var currentStrokeSample = StrokeSample(sample: sample)
             
-            
             // Add all of the touches to the active stroke.
             if let predictedTouches {
-            
-                for predictedTouch in predictedTouches{
-                    
+                for predictedTouch in predictedTouches {
                     let pSample = PenSample(timestamp: predictedTouch.timestamp - initialTimeStamp!, totalElapsedTime: predictedTouch.timestamp, location: predictedTouch.preciseLocation(in: self), coalesced: false, predicted: true, force: predictedTouch.force, azimuth: predictedTouch.azimuthAngle(in: self), altitude: predictedTouch.altitudeAngle, estimatedProperties: predictedTouch.estimatedProperties, estimatedPropertiesExpectingUpdates: predictedTouch.estimatedPropertiesExpectingUpdates)
                     
-                        currentStrokeSample.predictedSamples.append(pSample)
+                    currentStrokeSample.predictedSamples.append(pSample)
                 }
-                 
             }
             
             stroke.add(sample: currentStrokeSample)
-            
-       
         }
     }
 }
 
-
 public class TouchEvent: UITouch {
-    
-    
-    override public var force: CGFloat { get { return _force } }
+    override public var force: CGFloat { return _force }
     public var _force: CGFloat
     
-    override public var timestamp: TimeInterval { get { return _timestamp } }
+    override public var timestamp: TimeInterval { return _timestamp }
     public var _timestamp: TimeInterval
     
-    override public var altitudeAngle: CGFloat { get { return _altitudeAngle } }
+    override public var altitudeAngle: CGFloat { return _altitudeAngle }
     public var _altitudeAngle: CGFloat
     
-    override public var window: UIWindow? { get { return _window } }
+    override public var window: UIWindow? { return _window }
     public var _window: UIWindow?
     
-     init(force: CGFloat, timestamp: TimeInterval, altitudeAngle: CGFloat, window: UIWindow){
+    init(force: CGFloat, timestamp: TimeInterval, altitudeAngle: CGFloat, window: UIWindow) {
         self._force = force
         self._timestamp = timestamp
         self._altitudeAngle = altitudeAngle
         self._window = window
     }
-    
-    
 }
