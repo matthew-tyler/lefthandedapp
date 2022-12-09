@@ -68,7 +68,7 @@ struct ContentView: View
 		]
 
 	@State var current_message : Int = 0
-	@State private var canvasView = PredictiveCanvasview()
+	@State private var canvasView = HighFidlityCanvas()
 
 	init(_ parent: LeftHandApp)
 		{
@@ -95,7 +95,7 @@ struct ContentView: View
 					Button("Clear")
 						{
 						canvasView.drawing = PKDrawing()
-                        canvasView.strokeCollection = StrokeCollection()
+                        canvasView.strokeCollection = PKDrawing()
                          
 						}
 						.padding()
@@ -108,10 +108,7 @@ struct ContentView: View
 						Button("Save")
 							{
 							parent.person.latinSquareOrder = Int32(person.count)
-							parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing)
-                                
-                            parent.person.writingSamples.append(canvasView.strokeCollection!)
-                                
+                                parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing, highFidPath: canvasView.strokeCollection!)
                                 
 							current_message = (current_message + 1) % unSquaredMessage.count
 
@@ -121,7 +118,7 @@ struct ContentView: View
 								}
                                 
 							canvasView.drawing = PKDrawing()
-                            canvasView.strokeCollection = StrokeCollection()
+                            canvasView.strokeCollection = PKDrawing()
 							}
 							.padding()
 							.foregroundColor(.white)

@@ -249,12 +249,31 @@ struct ContentView: View
 
     func getImage(with id: UUID?) -> Writing?
     {
+        
         guard let id = id else { return nil }
+  
         let request = Writing.fetchRequest() as NSFetchRequest<Writing>
         request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
         guard let items = try? moc.fetch(request) else { return nil }
+       
         return items.first
     }
+    
+    
+    func getImagesByPerson(with id: UUID?) -> [Writing]?
+    {
+        
+        guard let id = id else { return nil }
+  
+        let request = Writing.fetchRequest() as NSFetchRequest<Writing>
+        request.predicate = NSPredicate(format: "%K == %@", "person_id", id as CVarArg)
+        guard let items = try? moc.fetch(request) else { return nil }
+        
+        print(items)
+       
+        return items
+    }
+    
     
     var body: some View
     {
@@ -301,27 +320,78 @@ struct ContentView: View
                     
                     Spacer().frame(width: 50)
                     
-                    Button("The Button"){
+                    Button("Export This"){
                         
-                        let req = BinaryWritingSamples.fetchRequest()
-                    
-                            
-                        let samples = try? moc.fetch(req)
-                        
-                        
-                        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                        
-                            
-                        let filename = paths[0].appendingPathComponent("output.txt")
-                        
-                        try? samples?.last?.samples?.write(to: filename)
                        
-                       
-                        
-                        
+
+                        if let samples = getImagesByPerson(with: selection?.id){
+                            
+                           
+                            
+                            let panel = NSOpenPanel()
+                            panel.allowsMultipleSelection = false
+                            panel.canCreateDirectories = true
+                            panel.canChooseDirectories = true
+                            panel.canChooseFiles = false
+                            if panel.runModal() == .OK
+                            {
+                                
+                                let directory = panel.url?.absoluteURL
+                                
+                                for sample in samples {
+                                    
+                                    
+                                    let filename = directory!.appendingPathComponent(sample.id!.uuidString + ".txt")
+                                    FileManager.default.createFile(atPath: filename.path, contents: "".data(using: .utf8))
+                                    
+                                    let fp = try! FileHandle(forWritingTo: filename)
+                                    for stroke in try! PKDrawing(data: sample.data!).strokes
+                                    {
+                                        fp.write("Stroke\n".data(using: .utf8)!)
+                                        stroke.path.forEach
+                                        { point in
+                                            fp.write((String(describing: point) + "\n").data(using: .utf8)!)
+                                        }
+                                    }
+                                    fp.closeFile()
+                                    
+                                    /*
+                                     Save the image as a PNG
+                                     */
+                                    let image = try! PKDrawing(data: sample.data!)
+                                    let png = NSBitmapImageRep(data: image.image(from: image.bounds, scale: 1).tiffRepresentation!)!.representation(using: .png, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: 1.0])
+                                    try! png!.write(to: directory!.appendingPathComponent(sample.id!.uuidString + ".png"))
+                                    
+                                    
+                                    
+                                    let hfFilename = directory!.appendingPathComponent( sample.id!.uuidString + "HF.txt")
+                                    FileManager.default.createFile(atPath: hfFilename.path, contents: "".data(using: .utf8))
+                                    
+                                    let hffp = try! FileHandle(forWritingTo: hfFilename)
+                                
+                                    for hfStroke in try! PKDrawing(data: sample.highFidData!).strokes
+                                    {
+                                        hffp.write("Stroke\n".data(using: .utf8)!)
+                                        hfStroke.path.forEach
+                                        { point in
+                                            hffp.write((String(describing: point) + "\n").data(using: .utf8)!)
+                                        }
+                                    }
+                                    hffp.closeFile()
+                                    
+                                    /*
+                                     Save the image as a PNG
+                                     */
+                                    let hfImage = try! PKDrawing(data: sample.highFidData!)
+                                    let hfPng = NSBitmapImageRep(data: hfImage.image(from: hfImage.bounds, scale: 1).tiffRepresentation!)!.representation(using: .png, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: 1.0])
+                                    try! hfPng!.write(to: directory!.appendingPathComponent(sample.id!.uuidString + "HF.png"))
+                                    
+                                }
+                            }
+                        }
                     }
                     Spacer().frame(width: 50)
-
+                    
                     Button("Export All")
                     {
                         var authors: Set<UUID> = []

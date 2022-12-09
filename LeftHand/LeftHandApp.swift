@@ -30,11 +30,13 @@ struct Drawing : Identifiable, Equatable
     let id = UUID()
 	var description : String = ""
 	var path = PKDrawing()
+    var highFidPath = PKDrawing()
 
-	init(description: String, path: PKDrawing)
+    init(description: String, path: PKDrawing, highFidPath: PKDrawing)
 		{
 		self.description = description
 		self.path = path
+        self.highFidPath = highFidPath
 		}
 	}
 
@@ -50,9 +52,6 @@ final class User
 	var authorRanking: [UUID] = []
 	var latinSquareOrder: Int32 = UNKNOWN_ORDER
     
-    // The pen samples as collected from the predictive canvas
-    var writingSamples: [StrokeCollection] = []
-
 	init()
 		{
 		rewind()
@@ -67,14 +66,14 @@ final class User
 		writingHand = UNKNOWN
 		educationLevel = UNKNOWN
 		scribbes = []
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
-		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing()))
+		scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
+        scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
+        scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
+        scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
+        scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
+        scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
+        scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
+        scribbes.append(Drawing(description: UNKNOWN, path: PKDrawing(),highFidPath: PKDrawing()))
 		authorRanking = []
 		latinSquareOrder = UNKNOWN_ORDER
 		}
