@@ -413,7 +413,7 @@ struct ContentView: View
                                 FileManager.default.createFile(atPath: filename.path, contents: "".data(using: .utf8))
 
                                 let fp = try! FileHandle(forWritingTo: filename)
-                                for stroke in try! PKDrawing(data: instance.data!).strokes
+                                for stroke in try! PKDrawing(data: instance.highFidData!).strokes
                                 {
                                     fp.write("Stroke\n".data(using: .utf8)!)
                                     stroke.path.forEach
@@ -426,7 +426,7 @@ struct ContentView: View
                                 /*
                                  	Save the image as a PNG
                                  */
-                                let image = try! PKDrawing(data: instance.data!)
+                                let image = try! PKDrawing(data: instance.highFidData!)
                                 let png = NSBitmapImageRep(data: image.image(from: image.bounds, scale: 1).tiffRepresentation!)!.representation(using: .png, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: 1.0])
                                 try! png!.write(to: directory!.appendingPathComponent(instance.id!.uuidString + ".png"))
                             }
