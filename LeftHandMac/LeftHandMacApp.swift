@@ -1,18 +1,18 @@
 /*
-	LeftHandMacApp.swift
-*/
+ LeftHandMacApp.swift
+ */
 import SwiftUI
 
 @main
-struct LeftHandMacApp: App
-	{
-	let persistenceController = PersistenceController.shared
+struct LeftHandMacApp: App {
+    let persistenceController = PersistenceController.shared
 
-	var body: some Scene
-		{
-		WindowGroup
-			{
+    var body: some Scene {
+
+        WindowGroup {
+         
                 ContentView().preferredColorScheme(.light).environment(\.managedObjectContext, persistenceController.container.viewContext)
-			}
-		}
-	}
+
+        }
+    }
+}

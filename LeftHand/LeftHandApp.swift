@@ -47,6 +47,7 @@ final class User
 	var age: String = UNKNOWN
 	var handedness: String = UNKNOWN
 	var writingHand: String = UNKNOWN
+    var writingHabit: String = UNKNOWN
 	var educationLevel: String = UNKNOWN
 	var scribbes: [Drawing] = []
 	var authorRanking: [UUID] = []
@@ -85,8 +86,9 @@ struct LeftHandApp: App
 	
 	@Environment(\.managedObjectContext) var moc
 
-	@StateObject var coordinator = AppCoordinator()
+    @StateObject var coordinator = AppCoordinator()
 	@StateObject private var dataController = DataController()
+    
 	var person = User()
 
 	var body: some Scene
@@ -100,7 +102,7 @@ struct LeftHandApp: App
 				case .demographics:
 					DemographicsView(self, result: person)
 				case .writings:
-					ContentView(self).environment(\.managedObjectContext, dataController.container.viewContext)
+                    ContentView(self).environment(\.managedObjectContext, dataController.container.viewContext).ignoresSafeArea().defersSystemGestures(on: .bottom).persistentSystemOverlays(.hidden)
 				case .order:
 					OrderingView(self).environment(\.managedObjectContext, dataController.container.viewContext)
 				}

@@ -9,15 +9,8 @@
         <attribute name="latinsquareorder" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="qualifications" optional="YES" attributeType="String"/>
         <attribute name="sex" optional="YES" attributeType="String"/>
+        <attribute name="writinghabit" optional="YES" attributeType="String"/>
         <attribute name="writinghand" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="Score" representedClassName="Score" syncable="YES" codeGenerationType="class">
-        <attribute name="points" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="scorer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Scorers" inverseName="scores" inverseEntity="Scorers"/>
-    </entity>
-    <entity name="Scorers" representedClassName="Scorers" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="scores" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Score" inverseName="scorer" inverseEntity="Score"/>
     </entity>
     <entity name="Writing" representedClassName="Writing" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>

@@ -17,120 +17,6 @@ func dateToString(date: Date?) -> String
     return dateFormatter.string(from: date!)
 }
 
-//extension ScoreSelector
-//{
-//    @MainActor class ScoreSelectorModel: ObservableObject
-//    {
-//        @Published var rating: Int = 0
-//
-//        @Published var id: UUID
-//
-//        @Published var moc: NSManagedObjectContext
-//
-//        init(id: UUID, moc : NSManagedObjectContext)
-//        {
-//            self.id = id
-//            self.moc = moc
-//
-//            let exisitngScore = getScore("Matt")
-//
-//            if exisitngScore != nil
-//            {
-//                _rating = Published(initialValue: Int(exisitngScore!.points))
-//            }
-//
-//
-//        }
-        
-//
-//        func setScore(_ tag: Int)
-//        {
-//            let check = getScore("Matt")
-//
-//            if check != nil
-//            {
-//                check!.points = Int16(tag)
-//
-//                return
-//            }
-//            else
-//            {
-//                do
-//                {
-////                    let score = Score(context: moc)
-////                    score.scorer = Scorers(context: moc)
-////
-////                    let request = Writing.fetchRequest() as NSFetchRequest<Writing>
-////                    request.predicate = NSPredicate(format: "%K == %@", "id", id as CVarArg)
-////
-////                    let writingSample = try moc.fetch(request)
-////
-////                    score.points = Int16(tag)
-////                    score.scorer!.name = "Matt"
-////                    score.writingSample = writingSample.first
-//                }
-//                catch {}
-//            }
-//
-//            try? moc.save()
-//        }
-        
-//        func getScore(_ name: String) -> Score?
-//        {
-//            let request = Score.fetchRequest() as NSFetchRequest<Score>
-//            request.predicate = NSPredicate(format: "scorer.name = %@ AND writingSample.id = %@", name, id as CVarArg)
-//                
-//            guard let scorer = try? moc.fetch(request) else { return nil }
-//
-//            return scorer.first
-//        }
-//    }
-//}
-
-//struct ScoreSelector: View
-//{
-//    @StateObject private var viewModel : ScoreSelectorModel
-//
-//    var id: UUID
-//
-//    var moc: NSManagedObjectContext
-//
-//    init(id: UUID, moc: NSManagedObjectContext)
-//    {
-//        self.id = id
-//
-//        self.moc = moc
-//
-//        _viewModel = StateObject(wrappedValue: ScoreSelectorModel(id: id, moc: moc));
-//    }
-//
-//    var body: some View
-//    {
-//
-//        Picker("Rating", selection: $viewModel.rating)
-//        {
-//            Group
-//            {
-//                Text("0").tag(0)
-//                Text("1").tag(1)
-//                Text("2").tag(2)
-//                Text("3").tag(3)
-//                Text("4").tag(4)
-//            }
-//
-//            Group
-//            {
-//                Text("5").tag(5)
-//                Text("6").tag(6)
-//                Text("7").tag(7)
-//                Text("8").tag(8)
-//                Text("9").tag(9)
-//                Text("10").tag(10)
-//            }
-//
-//        }.pickerStyle(SegmentedPickerStyle()).onChange(of: self.viewModel.rating) { tag in viewModel.setScore(tag) }
-//    }
-//}
 
 struct PersonView: View
 {
@@ -150,19 +36,13 @@ struct PersonView: View
         return (path.image(from: path.bounds, scale: 1), imageData)
     }
     
-    let imageIndexes = Array([0, 1, 2, 3, 4, 5, 6, 7]).shuffled()
+    let imageIndexes = Array([0, 1, 2, 3, 4, 5, 6, 7]) 
     
     func getRanks() -> [UUID]
     {
-        if secondaryRankingToggle
-        {
-            return person.authorranks!
-        }
-        
         return person.authorranks!
     }
     
-    @State var secondaryRankingToggle = false
     
     var body: some View
     {
@@ -177,16 +57,16 @@ struct PersonView: View
                 Text(" Age:" + person.age!)
                 Text(" Sex:" + person.sex!)
                 Text(" Qual:" + person.qualifications!)
-                Text(" Hand:" + person.handedness!)
-                Text(" Writer:" + person.handedness!)
-                Text(" When:" + dateToString(date: person.date))
-                Text(" LatinOrder:" + String(person.latinsquareorder))
+                Text(" Handedness:" + person.handedness!)
+                if let habit = person.writinghabit{
+                    Text(" Habit:" + habit)
+                }
+                Group{
+                    Text(" Writing Hand:" + person.writinghand!)
+                    Text(" When:" + dateToString(date: person.date))
+                    Text(" LatinOrder:" + String(person.latinsquareorder))
+                }
                 Spacer()
-            }
-            HStack
-            {
-                Spacer().frame(width: 20)
-                Toggle("Secondary Ranking: ", isOn: $secondaryRankingToggle)
             }
             Spacer().frame(height: 20)
             HStack(alignment: .lastTextBaseline)
@@ -200,8 +80,7 @@ struct PersonView: View
                         Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
                         Text("Id:" + id.uuidString)
                         Text(data!.type!)
-                       
-//                        ScoreSelector(id: id, moc: moc)
+                    
                     }.id(UUID())
                 }
             }
@@ -218,8 +97,8 @@ struct PersonView: View
                         Image(nsImage: img!).resizable().scaledToFit().frame(width: img!.size.width / scaleFactor, height: img!.size.height / scaleFactor).border(.black)
                         Text("Id:" + id.uuidString)
                         Text(data!.type!)
+                        
 
-//                        ScoreSelector(id: id, moc: moc)
                     }.id(UUID())
                 }
             }
@@ -540,6 +419,6 @@ extension NSTableView
         super.viewDidMoveToWindow()
 
         backgroundColor = NSColor.white
-        enclosingScrollView!.drawsBackground = false
+        enclosingScrollView?.drawsBackground = false
     }
 }

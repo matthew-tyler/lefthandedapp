@@ -14,6 +14,7 @@ struct OrderingView: View
 	@FetchRequest(sortDescriptors: []) var writing: FetchedResults<Writing>
 	@State var saveError : Bool = false
 	@State var saveSuccess : Bool = false
+    @State private var isConfirming = false
 
 	init(_ parent: LeftHandApp)
 		{
@@ -63,6 +64,7 @@ struct OrderingView: View
 					instance.age = parent.person.age
 					instance.handedness = parent.person.handedness
 					instance.writinghand = parent.person.writingHand
+                    instance.writinghabit = parent.person.writingHabit
 					instance.qualifications = parent.person.educationLevel
 					instance.authorranks = parent.person.authorRanking
 					instance.latinsquareorder = parent.person.latinSquareOrder
@@ -99,13 +101,21 @@ struct OrderingView: View
 						}
 				Button("QUIT")
 					{
-					parent.person.rewind()
-					parent.coordinator.screen = Screen.conset
+                        isConfirming = true
 					}
 					.padding()
 					.foregroundColor(.white)
 					.background(Color.red.opacity(0.5))
 					.clipShape(RoundedRectangle(cornerRadius: 5))
+                    .confirmationDialog(
+                        "Are you sure you want to quit?",
+                        isPresented: $isConfirming
+                    )
+                    { Button("Confirm", role: .destructive)
+                    {
+                        parent.person.rewind()
+                        parent.coordinator.screen = Screen.conset
+                    }}
 
 				Spacer().frame(width: 50)
 				}.frame(height:100, alignment: .leading)

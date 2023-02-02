@@ -31,8 +31,8 @@ class HighFidlityCanvas: PKCanvasView {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         activeStroke = []
-        
-        let pencilTouch = touches.first(where: {$0.type == UITouch.TouchType.pencil} )
+
+        let pencilTouch = touches.first(where: {$0.type == UITouch.TouchType.pencil})
         
         guard let pencilTouch else{
             super.touchesBegan(touches, with: event)
@@ -100,7 +100,7 @@ class HighFidlityCanvas: PKCanvasView {
             super.touchesCancelled(touches, with: event)
             return
         }
-        // Clear the last stroke.
+
         activeStroke = nil
         firstStrokeTimeStamp = nil
         creationDate = nil
