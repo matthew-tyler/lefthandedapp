@@ -14,22 +14,17 @@ import SwiftUI
 // https://cs.uwaterloo.ca/~dmasson/tools/latin_square/
 // ...
 // NOTE:  Odd numbers need twice as many rows to be fully ballanced
-func balancedLatinSquare(_ array: [String], _ participantId: Int) -> [String]
-{
+func balancedLatinSquare(_ array: [String], _ participantId: Int) -> [String] {
     var result: [String] = []
     // Based on "Bradley, J. V. Complete counterbalancing of immediate sequential effects in a Latin square design. J. Amer. Statist. Ass.,.1958, 53, 525-528. "
     var j = 0, h = 0
 
-    for i in 0 ..< array.count
-    {
+    for i in 0 ..< array.count {
         var val = 0
-        if i < 2 || i % 2 != 0
-        {
+        if i < 2 || i % 2 != 0 {
             val = j
             j = j + 1
-        }
-        else
-        {
+        } else {
             val = array.count - h - 1
             h = h + 1
         }
@@ -38,64 +33,55 @@ func balancedLatinSquare(_ array: [String], _ participantId: Int) -> [String]
         result.append(array[idx])
     }
 
-    if array.count % 2 != 0, participantId % 2 != 0
-    {
+    if array.count % 2 != 0, participantId % 2 != 0 {
         result.reverse()
     }
 
     return result
 }
 
-
-struct ContentView: View
-{
+struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: []) var person: FetchedResults<Person>
-    
+
     @State var parent: LeftHandApp
     @EnvironmentObject var motionDetector: MotionDetector
-    
+
     let unSquaredMessage =
-    [
-        "Horizontal, Small Grip, Right Hand",
-        "Horizontal, Small Grip, Left Hand",
-        "Horizontal, Large Grip, Right Hand",
-        "Horizontal, Large Grip, Left Hand",
-        "Vertical, Small Grip, Right Hand",
-        "Vertical, Small Grip, Left Hand",
-        "Vertical, Large Grip, Right Hand",
-        "Vertical, Large Grip, Left Hand",
-    ]
-    
+        [
+            "Horizontal, Small Grip, Right Hand",
+            "Horizontal, Small Grip, Left Hand",
+            "Horizontal, Large Grip, Right Hand",
+            "Horizontal, Large Grip, Left Hand",
+            "Vertical, Small Grip, Right Hand",
+            "Vertical, Small Grip, Left Hand",
+            "Vertical, Large Grip, Right Hand",
+            "Vertical, Large Grip, Left Hand",
+        ]
+
     @State var current_message: Int = 0
     @State private var canvasView = HighFidlityCanvas()
     @State private var isConfirming = false
 
-    init(_ parent: LeftHandApp)
-    {
+    init(_ parent: LeftHandApp) {
         _parent = State(initialValue: parent)
     }
 
-    var body: some View
-    {
-        ZStack
-        {
+    var body: some View {
+        ZStack {
             MyCanvas(canvasView: $canvasView).statusBarHidden(true).environmentObject(motionDetector)
-            VStack
-            {
+            VStack {
                 Spacer()
-                HStack
-                {
+                HStack {
                     Spacer().frame(width: 50)
                     Image("OtagoLogo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 83, alignment: .center)
                     Text("Please write " + balancedLatinSquare(unSquaredMessage, person.count)[current_message]).font(.title)
-              
+
                     Spacer()
-                    Button("Clear")
-                    {
+                    Button("Clear") {
                         canvasView.drawing = PKDrawing()
                         canvasView.strokeCollection = PKDrawing()
                     }
@@ -103,17 +89,14 @@ struct ContentView: View
                     .foregroundColor(.white)
                     .background(Color.blue.opacity(0.5))
                     .clipShape(RoundedRectangle(cornerRadius: 5))
-                    Group
-                    {
+                    Group {
                         Spacer().frame(width: 20)
-                        Button("Save")
-                        {
+                        Button("Save") {
                             parent.person.latinSquareOrder = Int32(person.count)
                             parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing, highFidPath: canvasView.strokeCollection!, orientation: canvasView.orientation!)
 
                             current_message = (current_message + 1) % unSquaredMessage.count
-                            if current_message == 0
-                            {
+                            if current_message == 0 {
                                 parent.coordinator.screen = Screen.order
                             }
 
@@ -125,11 +108,9 @@ struct ContentView: View
                         .background(Color.blue.opacity(0.5))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                     }
-                    Group
-                    {
+                    Group {
                         Spacer().frame(width: 20)
-                        Button("QUIT")
-                        {
+                        Button("QUIT") {
                             isConfirming = true
                         }
                         .padding()
@@ -139,12 +120,11 @@ struct ContentView: View
                         .confirmationDialog(
                             "Are you sure you want to quit?",
                             isPresented: $isConfirming
-                        )
-                        { Button("Confirm", role: .destructive)
-                        {
+                        ) { Button("Confirm", role: .destructive) {
                             parent.person.rewind()
                             parent.coordinator.screen = Screen.consent
-                        }}
+                        }
+                        }
                     }
 
                     Spacer().frame(width: 50)

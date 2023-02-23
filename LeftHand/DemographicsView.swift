@@ -6,8 +6,7 @@ import Foundation
 import PencilKit
 import SwiftUI
 
-struct DemographicsView: View
-{
+struct DemographicsView: View {
     @State var parent: LeftHandApp
     @State var result: User
 
@@ -22,35 +21,32 @@ struct DemographicsView: View
 
     var writingHand = ["Left", "Right", "Ambidextrous", "Withheld"]
     @State var selectedWritingHand: String
-    
-    var writingHabit = ["More than once a day", "More than once a month", "Less than once a month","Withheld"]
+
+    var writingHabit = ["More than once a day", "More than once a month", "Less than once a month", "Withheld"]
     @State var selectedWritingHabit: String
-    
+
     // Meeting: Suggested question, how often one uses a stylus on tablet
-    var stylusHabit = ["More than once a day", "More than once a month", "Less than once a month","Withheld"]
+    var stylusHabit = ["More than once a day", "More than once a month", "Less than once a month", "Withheld"]
     @State var selectedStylusHabit: String
-    
+
     // Meeting: Unsure why this question.
     var educationLevel = ["School", "Bachelor", "Masters", "PhD", "Withheld"]
     @State var selectedEducationLevel: String
 
-    init(_ parent: LeftHandApp, result: User)
-    {
+    init(_ parent: LeftHandApp, result: User) {
         _parent = State(initialValue: parent)
         self.result = result
-        self.selectedSex = result.sex
-        self.selectedAge = result.age
-        self.selectedHandedness = result.handedness
-        self.selectedWritingHand = result.writingHand
-        self.selectedEducationLevel = result.educationLevel
-        self.selectedWritingHabit = result.writingHabit
-        self.selectedStylusHabit = result.stylusHabit
+        selectedSex = result.sex
+        selectedAge = result.age
+        selectedHandedness = result.handedness
+        selectedWritingHand = result.writingHand
+        selectedEducationLevel = result.educationLevel
+        selectedWritingHabit = result.writingHabit
+        selectedStylusHabit = result.stylusHabit
     }
 
-    var body: some View
-    {
-        Group
-        {
+    var body: some View {
+        Group {
             Image("OtagoLogo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -61,21 +57,16 @@ struct DemographicsView: View
             Text("Please provide a little information about yourself").font(.title)
         }
         Spacer()
-        Group
-        {
-            HStack
-            {
+        Group {
+            HStack {
                 Spacer().frame(width: 20)
                 Text("Sex:").font(.title)
                 Spacer()
             }
-            HStack
-            {
+            HStack {
                 Spacer().frame(width: 40)
-                Picker("Sex:", selection: $selectedSex)
-                {
-                    ForEach(sexes, id: \.self)
-                    {
+                Picker("Sex:", selection: $selectedSex) {
+                    ForEach(sexes, id: \.self) {
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
@@ -84,21 +75,16 @@ struct DemographicsView: View
             Spacer()
         }
 
-        Group
-        {
-            HStack
-            {
+        Group {
+            HStack {
                 Spacer().frame(width: 20)
                 Text("Age:").font(.title)
                 Spacer()
             }
-            HStack
-            {
+            HStack {
                 Spacer().frame(width: 40)
-                Picker("Age:", selection: $selectedAge)
-                {
-                    ForEach(ages, id: \.self)
-                    {
+                Picker("Age:", selection: $selectedAge) {
+                    ForEach(ages, id: \.self) {
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
@@ -107,21 +93,16 @@ struct DemographicsView: View
             Spacer()
         }
 
-        Group
-        {
-            HStack
-            {
+        Group {
+            HStack {
                 Spacer().frame(width: 20)
                 Text("Writing Hand:").font(.title)
                 Spacer()
             }
-            HStack
-            {
+            HStack {
                 Spacer().frame(width: 40)
-                Picker("Writing Hand:", selection: $selectedWritingHand)
-                {
-                    ForEach(writingHand, id: \.self)
-                    {
+                Picker("Writing Hand:", selection: $selectedWritingHand) {
+                    ForEach(writingHand, id: \.self) {
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
@@ -130,21 +111,16 @@ struct DemographicsView: View
             Spacer()
         }
 
-        Group
-        {
-            HStack
-            {
+        Group {
+            HStack {
                 Spacer().frame(width: 20)
                 Text("Handedness:").font(.title)
                 Spacer()
             }
-            HStack
-            {
+            HStack {
                 Spacer().frame(width: 40)
-                Picker("Handedness:", selection: $selectedHandedness)
-                {
-                    ForEach(handedness, id: \.self)
-                    {
+                Picker("Handedness:", selection: $selectedHandedness) {
+                    ForEach(handedness, id: \.self) {
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
@@ -153,21 +129,16 @@ struct DemographicsView: View
             Spacer()
         }
 
-        Group
-        {
-            HStack
-            {
+        Group {
+            HStack {
                 Spacer().frame(width: 20)
                 Text("Writing Habit:").font(.title)
                 Spacer()
             }
-            HStack
-            {
+            HStack {
                 Spacer().frame(width: 40)
-                Picker("Writing Habit:", selection: $selectedWritingHabit)
-                {
-                    ForEach(writingHabit, id: \.self)
-                    {
+                Picker("Writing Habit:", selection: $selectedWritingHabit) {
+                    ForEach(writingHabit, id: \.self) {
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
@@ -175,21 +146,16 @@ struct DemographicsView: View
             }
             Spacer()
         }
-        Group
-        {
-            HStack
-            {
+        Group {
+            HStack {
                 Spacer().frame(width: 20)
                 Text("Stylus Habit:").font(.title)
                 Spacer()
             }
-            HStack
-            {
+            HStack {
                 Spacer().frame(width: 40)
-                Picker("Stylus Habit:", selection: $selectedStylusHabit)
-                {
-                    ForEach(stylusHabit, id: \.self)
-                    {
+                Picker("Stylus Habit:", selection: $selectedStylusHabit) {
+                    ForEach(stylusHabit, id: \.self) {
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
@@ -198,21 +164,16 @@ struct DemographicsView: View
             Spacer()
         }
 
-        Group
-        {
-            HStack
-            {
+        Group {
+            HStack {
                 Spacer().frame(width: 20)
                 Text("Highest Qualification:").font(.title)
                 Spacer()
             }
-            HStack
-            {
+            HStack {
                 Spacer().frame(width: 40)
-                Picker("EducationLevel:", selection: $selectedEducationLevel)
-                {
-                    ForEach(educationLevel, id: \.self)
-                    {
+                Picker("EducationLevel:", selection: $selectedEducationLevel) {
+                    ForEach(educationLevel, id: \.self) {
                         Text($0)
                     }
                 }.pickerStyle(SegmentedPickerStyle())
@@ -221,14 +182,11 @@ struct DemographicsView: View
             Spacer()
         }
 
-        Group
-        {
+        Group {
             Spacer()
-            HStack
-            {
+            HStack {
                 Spacer()
-                Button("Continue...")
-                {
+                Button("Continue...") {
                     parent.coordinator.screen = Screen.writings
 
                     result.sex = selectedSex
@@ -237,24 +195,24 @@ struct DemographicsView: View
                     result.writingHand = selectedWritingHand
                     result.educationLevel = selectedEducationLevel
                     switch selectedWritingHabit {
-                        case "More than once a day":
-                            result.writingHabit = "Regularly"
-                        case "More than once a month":
-                            result.writingHabit = "Irregularly"
-                        case "Less than once a month":
-                            result.writingHabit = "Rarely"
-                        default:
-                            result.writingHabit = "Withheld"
+                    case "More than once a day":
+                        result.writingHabit = "Regularly"
+                    case "More than once a month":
+                        result.writingHabit = "Irregularly"
+                    case "Less than once a month":
+                        result.writingHabit = "Rarely"
+                    default:
+                        result.writingHabit = "Withheld"
                     }
                     switch selectedStylusHabit {
-                        case "More than once a day":
-                            result.stylusHabit = "Regularly"
-                        case "More than once a month":
-                            result.stylusHabit = "Irregularly"
-                        case "Less than once a month":
-                            result.stylusHabit = "Rarely"
-                        default:
-                            result.stylusHabit = "Withheld"
+                    case "More than once a day":
+                        result.stylusHabit = "Regularly"
+                    case "More than once a month":
+                        result.stylusHabit = "Irregularly"
+                    case "Less than once a month":
+                        result.stylusHabit = "Rarely"
+                    default:
+                        result.stylusHabit = "Withheld"
                     }
                 }
                 .padding()
@@ -262,8 +220,7 @@ struct DemographicsView: View
                 .background(Color.blue.opacity(0.5))
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 Spacer().frame(width: 20)
-                Button("QUIT")
-                {
+                Button("QUIT") {
                     parent.person.rewind()
                     parent.coordinator.screen = Screen.consent
                 }

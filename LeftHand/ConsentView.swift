@@ -5,21 +5,17 @@
 import Foundation
 import SwiftUI
 
-struct ConsentView: View
-{
+struct ConsentView: View {
     @State var parent: LeftHandApp
 
-    init(_ parent: LeftHandApp)
-    {
+    init(_ parent: LeftHandApp) {
         _parent = State(initialValue: parent)
     }
 
-    var body: some View
-    {
+    var body: some View {
         Spacer()
 
-        Button
-        {
+        Button {
             parent.coordinator.screen = Screen.calibration
         } label: {
             Image("OtagoLogo")
@@ -28,16 +24,14 @@ struct ConsentView: View
                 .frame(width: 200)
         }
 
-        VStack
-        {
+        VStack {
             Text("University of Otago").font(.largeTitle)
             Text("Writing Experiment").font(.largeTitle)
         }
         Spacer()
         Text("Please press \"Start Experiment\" once you have signed the Consent Form").font(.title)
         Spacer()
-        Button("Start Experiment")
-        {
+        Button("Start Experiment") {
             parent.coordinator.screen = Screen.demographics
             parent.person.id = UUID()
         }

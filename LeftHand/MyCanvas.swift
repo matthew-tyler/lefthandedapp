@@ -5,13 +5,11 @@ import Foundation
 import PencilKit
 import SwiftUI
 
-struct MyCanvas: UIViewRepresentable
-    {
+struct MyCanvas: UIViewRepresentable {
     @Binding var canvasView: HighFidlityCanvas
     @EnvironmentObject var motionDetector: MotionDetector
 
-    func makeUIView(context _: Context) -> PKCanvasView
-    {
+    func makeUIView(context _: Context) -> PKCanvasView {
         canvasView.drawingPolicy = .pencilOnly
         canvasView.tool = PKInkingTool(.pen, color: .black, width: 2)
         canvasView.strokeCollection = PKDrawing()
@@ -19,14 +17,12 @@ struct MyCanvas: UIViewRepresentable
         return canvasView
     }
 
-    func updateUIView(_: PKCanvasView, context _: Context)
-    {
+    func updateUIView(_: PKCanvasView, context _: Context) {
         /* Nothing */
     }
 }
 
-class HighFidlityCanvas: PKCanvasView
-{
+class HighFidlityCanvas: PKCanvasView {
     var strokeCollection: PKDrawing?
 
     var activeStroke: [PKStrokePoint]?
@@ -36,27 +32,23 @@ class HighFidlityCanvas: PKCanvasView
     var motionDetector: MotionDetector?
     var orientation: Double?
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         activeStroke = []
 
         let pencilTouch = touches.first(where: { $0.type == UITouch.TouchType.pencil })
 
         guard let pencilTouch
-        else
-        {
+        else {
             super.touchesBegan(touches, with: event)
             return
         }
 
-        if let coalesced = event?.coalescedTouches(for: pencilTouch)
-        {
+        if let coalesced = event?.coalescedTouches(for: pencilTouch) {
             firstStrokeTimeStamp = pencilTouch.timestamp
             creationDate = Date()
             orientation = motionDetector?.adjustedYaw
 
-            for touch in coalesced
-            {
+            for touch in coalesced {
                 addSample(touch)
             }
         }
@@ -64,21 +56,17 @@ class HighFidlityCanvas: PKCanvasView
         super.touchesBegan(touches, with: event)
     }
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let pencilTouch = touches.first(where: { $0.type == UITouch.TouchType.pencil })
 
         guard let pencilTouch
-        else
-        {
+        else {
             super.touchesMoved(touches, with: event)
             return
         }
 
-        if let coalesced = event?.coalescedTouches(for: pencilTouch)
-        {
-            for touch in coalesced
-            {
+        if let coalesced = event?.coalescedTouches(for: pencilTouch) {
+            for touch in coalesced {
                 addSample(touch)
             }
         }
@@ -86,21 +74,17 @@ class HighFidlityCanvas: PKCanvasView
         super.touchesMoved(touches, with: event)
     }
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let pencilTouch = touches.first(where: { $0.type == UITouch.TouchType.pencil })
 
         guard let pencilTouch
-        else
-        {
+        else {
             super.touchesEnded(touches, with: event)
             return
         }
 
-        if let coalesced = event?.coalescedTouches(for: pencilTouch)
-        {
-            for touch in coalesced
-            {
+        if let coalesced = event?.coalescedTouches(for: pencilTouch) {
+            for touch in coalesced {
                 addSample(touch)
             }
         }
@@ -113,13 +97,11 @@ class HighFidlityCanvas: PKCanvasView
         super.touchesEnded(touches, with: event)
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         let pencilTouch = touches.first(where: { $0.type == UITouch.TouchType.pencil })
 
         guard pencilTouch != nil
-        else
-        {
+        else {
             super.touchesCancelled(touches, with: event)
             return
         }
@@ -130,8 +112,7 @@ class HighFidlityCanvas: PKCanvasView
         super.touchesCancelled(touches, with: event)
     }
 
-    func addSample(_ touch: UITouch)
-    {
+    func addSample(_ touch: UITouch) {
         guard let firstStrokeTimeStamp else { return }
 
         let sample = PKStrokePoint(location: touch.preciseLocation(in: self), timeOffset: touch.timestamp - firstStrokeTimeStamp,
