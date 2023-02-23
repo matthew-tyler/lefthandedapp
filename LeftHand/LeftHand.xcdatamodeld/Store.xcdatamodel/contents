@@ -9,6 +9,7 @@
         <attribute name="latinsquareorder" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="qualifications" optional="YES" attributeType="String"/>
         <attribute name="sex" optional="YES" attributeType="String"/>
+        <attribute name="stylusHabit" optional="YES" attributeType="String"/>
         <attribute name="writinghabit" optional="YES" attributeType="String"/>
         <attribute name="writinghand" optional="YES" attributeType="String"/>
     </entity>
@@ -16,6 +17,7 @@
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="highFidData" optional="YES" attributeType="Binary"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="orientation" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="person_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="type" optional="YES" attributeType="String"/>
     </entity>

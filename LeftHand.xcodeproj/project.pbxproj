@@ -32,6 +32,7 @@
 		49FA6C862849AE42008F4F77 /* DataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49FA6C852849AE42008F4F77 /* DataContainer.swift */; };
 		C927EC432921B2C8005E3C94 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C927EC422921B2C8005E3C94 /* Info.plist */; };
 		C95DCC49292ACAA10070A427 /* Fourier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95DCC48292ACAA10070A427 /* Fourier.swift */; };
+		C97ACD222995D14800E47AD1 /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97ACD212995D14800E47AD1 /* CalibrationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		49FA6C852849AE42008F4F77 /* DataContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataContainer.swift; sourceTree = "<group>"; };
 		C927EC422921B2C8005E3C94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C95DCC48292ACAA10070A427 /* Fourier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fourier.swift; sourceTree = "<group>"; };
+		C97ACD212995D14800E47AD1 /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				49A2B28428641E7B0091F2D7 /* OtagoLogo.jpeg */,
 				49FA6C7228498EB2008F4F77 /* LeftHandApp.swift */,
 				49FA6C7428498EB2008F4F77 /* ContentView.swift */,
+				C97ACD212995D14800E47AD1 /* CalibrationView.swift */,
 				49B0C131285AA85600F561F9 /* DemographicsView.swift */,
 				49B0C133285AEFD500F561F9 /* ConsentView.swift */,
 				49D592EC285BFC400041D63C /* OrderingView.swift */,
@@ -354,6 +357,7 @@
 				49FA6C8128498F02008F4F77 /* MyCanvas.swift in Sources */,
 				49FA6C862849AE42008F4F77 /* DataContainer.swift in Sources */,
 				49D592ED285BFC400041D63C /* OrderingView.swift in Sources */,
+				C97ACD222995D14800E47AD1 /* CalibrationView.swift in Sources */,
 				49B0C132285AA85600F561F9 /* DemographicsView.swift in Sources */,
 				49B0C134285AEFD500F561F9 /* ConsentView.swift in Sources */,
 				49FA6C7528498EB2008F4F77 /* ContentView.swift in Sources */,

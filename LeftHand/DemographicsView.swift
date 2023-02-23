@@ -25,8 +25,13 @@ struct DemographicsView: View
     
     var writingHabit = ["More than once a day", "More than once a month", "Less than once a month","Withheld"]
     @State var selectedWritingHabit: String
-
-    var educationLevel = ["School", "Batchelor", "Masters", "PhD", "Withheld"]
+    
+    // Meeting: Suggested question, how often one uses a stylus on tablet
+    var stylusHabit = ["More than once a day", "More than once a month", "Less than once a month","Withheld"]
+    @State var selectedStylusHabit: String
+    
+    // Meeting: Unsure why this question.
+    var educationLevel = ["School", "Bachelor", "Masters", "PhD", "Withheld"]
     @State var selectedEducationLevel: String
 
     init(_ parent: LeftHandApp, result: User)
@@ -39,11 +44,11 @@ struct DemographicsView: View
         self.selectedWritingHand = result.writingHand
         self.selectedEducationLevel = result.educationLevel
         self.selectedWritingHabit = result.writingHabit
+        self.selectedStylusHabit = result.stylusHabit
     }
 
     var body: some View
     {
-        Spacer()
         Group
         {
             Image("OtagoLogo")
@@ -170,6 +175,28 @@ struct DemographicsView: View
             }
             Spacer()
         }
+        Group
+        {
+            HStack
+            {
+                Spacer().frame(width: 20)
+                Text("Stylus Habit:").font(.title)
+                Spacer()
+            }
+            HStack
+            {
+                Spacer().frame(width: 40)
+                Picker("Stylus Habit:", selection: $selectedStylusHabit)
+                {
+                    ForEach(stylusHabit, id: \.self)
+                    {
+                        Text($0)
+                    }
+                }.pickerStyle(SegmentedPickerStyle())
+                Spacer()
+            }
+            Spacer()
+        }
 
         Group
         {
@@ -219,6 +246,16 @@ struct DemographicsView: View
                         default:
                             result.writingHabit = "Withheld"
                     }
+                    switch selectedStylusHabit {
+                        case "More than once a day":
+                            result.stylusHabit = "Regularly"
+                        case "More than once a month":
+                            result.stylusHabit = "Irregularly"
+                        case "Less than once a month":
+                            result.stylusHabit = "Rarely"
+                        default:
+                            result.stylusHabit = "Withheld"
+                    }
                 }
                 .padding()
                 .foregroundColor(.white)
@@ -228,7 +265,7 @@ struct DemographicsView: View
                 Button("QUIT")
                 {
                     parent.person.rewind()
-                    parent.coordinator.screen = Screen.conset
+                    parent.coordinator.screen = Screen.consent
                 }
                 .padding()
                 .foregroundColor(.white)

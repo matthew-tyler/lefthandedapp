@@ -46,25 +46,27 @@ func balancedLatinSquare(_ array: [String], _ participantId: Int) -> [String]
     return result
 }
 
+
 struct ContentView: View
 {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: []) var person: FetchedResults<Person>
-
+    
     @State var parent: LeftHandApp
-
+    @EnvironmentObject var motionDetector: MotionDetector
+    
     let unSquaredMessage =
-        [
-            "Horizontal, Small Grip, Right Hand",
-            "Horizontal, Small Grip, Left Hand",
-            "Horizontal, Large Grip, Right Hand",
-            "Horizontal, Large Grip, Left Hand",
-            "Vertical, Small Grip, Right Hand",
-            "Vertical, Small Grip, Left Hand",
-            "Vertical, Large Grip, Right Hand",
-            "Vertical, Large Grip, Left Hand",
-        ]
-
+    [
+        "Horizontal, Small Grip, Right Hand",
+        "Horizontal, Small Grip, Left Hand",
+        "Horizontal, Large Grip, Right Hand",
+        "Horizontal, Large Grip, Left Hand",
+        "Vertical, Small Grip, Right Hand",
+        "Vertical, Small Grip, Left Hand",
+        "Vertical, Large Grip, Right Hand",
+        "Vertical, Large Grip, Left Hand",
+    ]
+    
     @State var current_message: Int = 0
     @State private var canvasView = HighFidlityCanvas()
     @State private var isConfirming = false
@@ -78,7 +80,7 @@ struct ContentView: View
     {
         ZStack
         {
-            MyCanvas(canvasView: $canvasView).statusBarHidden(true)
+            MyCanvas(canvasView: $canvasView).statusBarHidden(true).environmentObject(motionDetector)
             VStack
             {
                 Spacer()
@@ -90,8 +92,7 @@ struct ContentView: View
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 83, alignment: .center)
                     Text("Please write " + balancedLatinSquare(unSquaredMessage, person.count)[current_message]).font(.title)
-                    Spacer()
-                    Text("Sentence: Step on no pets")
+              
                     Spacer()
                     Button("Clear")
                     {
@@ -108,10 +109,9 @@ struct ContentView: View
                         Button("Save")
                         {
                             parent.person.latinSquareOrder = Int32(person.count)
-                            parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing, highFidPath: canvasView.strokeCollection!)
+                            parent.person.scribbes[current_message] = Drawing(description: balancedLatinSquare(unSquaredMessage, person.count)[current_message], path: canvasView.drawing, highFidPath: canvasView.strokeCollection!, orientation: canvasView.orientation!)
 
                             current_message = (current_message + 1) % unSquaredMessage.count
-
                             if current_message == 0
                             {
                                 parent.coordinator.screen = Screen.order
@@ -143,7 +143,7 @@ struct ContentView: View
                         { Button("Confirm", role: .destructive)
                         {
                             parent.person.rewind()
-                            parent.coordinator.screen = Screen.conset
+                            parent.coordinator.screen = Screen.consent
                         }}
                     }
 

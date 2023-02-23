@@ -50,6 +50,7 @@ struct OrderingView: View
 						instance.type = scribble.description
 						instance.data = scribble.path.dataRepresentation()
                         instance.highFidData = scribble.highFidPath.dataRepresentation()
+                        instance.orientation = scribble.orientation
 						instance.person_id = parent.person.id
 						parent.person.authorRanking.append(instance.id!)
 						}
@@ -65,6 +66,7 @@ struct OrderingView: View
 					instance.handedness = parent.person.handedness
 					instance.writinghand = parent.person.writingHand
                     instance.writinghabit = parent.person.writingHabit
+                    instance.stylusHabit = parent.person.stylusHabit
 					instance.qualifications = parent.person.educationLevel
 					instance.authorranks = parent.person.authorRanking
 					instance.latinsquareorder = parent.person.latinSquareOrder
@@ -97,7 +99,7 @@ struct OrderingView: View
 						}
 					.alert(isPresented: $saveSuccess)
 						{
-						Alert(title: Text("Thank You"), message: Text("Thank you for participating in this study"), dismissButton: .default(Text("OK"), action: { parent.coordinator.screen = Screen.conset}))
+						Alert(title: Text("Thank You"), message: Text("Thank you for participating in this study"), dismissButton: .default(Text("OK"), action: { parent.coordinator.screen = Screen.consent}))
 						}
 				Button("QUIT")
 					{
@@ -114,7 +116,7 @@ struct OrderingView: View
                     { Button("Confirm", role: .destructive)
                     {
                         parent.person.rewind()
-                        parent.coordinator.screen = Screen.conset
+                        parent.coordinator.screen = Screen.consent
                     }}
 
 				Spacer().frame(width: 50)

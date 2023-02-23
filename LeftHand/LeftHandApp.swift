@@ -9,10 +9,11 @@ let UNKNOWN_ORDER: Int32 = -1
 
 enum Screen
 	{
-	case conset
+	case consent
 	case demographics
 	case writings
 	case order
+    case calibration
 	}
 
 final class AppCoordinator: ObservableObject
@@ -21,7 +22,7 @@ final class AppCoordinator: ObservableObject
 
 	init()
 		{
-		screen = .conset
+		screen = .consent
 		}
 	}
 
@@ -31,6 +32,8 @@ struct Drawing : Identifiable, Equatable
 	var description : String = ""
 	var path = PKDrawing()
     var highFidPath = PKDrawing()
+    // The orientation of the tablet, relative to the edge of the table
+    var orientation: Double = 0.0
 
     init(description: String, path: PKDrawing, highFidPath: PKDrawing)
 		{
@@ -38,7 +41,19 @@ struct Drawing : Identifiable, Equatable
 		self.path = path
         self.highFidPath = highFidPath
 		}
+    // orverloaded to set orientation
+    init(description: String, path: PKDrawing, highFidPath: PKDrawing,orientation: Double)
+        {
+        self.description = description
+        self.path = path
+        self.highFidPath = highFidPath
+        self.orientation = orientation
+
+        }
+    
+
 	}
+
 
 final class User
 	{
@@ -48,6 +63,7 @@ final class User
 	var handedness: String = UNKNOWN
 	var writingHand: String = UNKNOWN
     var writingHabit: String = UNKNOWN
+    var stylusHabit: String = UNKNOWN
 	var educationLevel: String = UNKNOWN
 	var scribbes: [Drawing] = []
 	var authorRanking: [UUID] = []
@@ -88,6 +104,7 @@ struct LeftHandApp: App
 
     @StateObject var coordinator = AppCoordinator()
 	@StateObject private var dataController = DataController()
+    @StateObject var motionDetector = MotionDetector(updateInterval: 0.1).started()
     
 	var person = User()
 
@@ -97,14 +114,16 @@ struct LeftHandApp: App
 			{
 			switch (coordinator.screen)
 				{
-				case .conset:
+				case .consent:
 					ConsentView(self)
 				case .demographics:
 					DemographicsView(self, result: person)
 				case .writings:
-                    ContentView(self).environment(\.managedObjectContext, dataController.container.viewContext).ignoresSafeArea().defersSystemGestures(on: .bottom).persistentSystemOverlays(.hidden)
+                    ContentView(self).environment(\.managedObjectContext, dataController.container.viewContext).ignoresSafeArea().defersSystemGestures(on: .bottom).persistentSystemOverlays(.hidden).environmentObject(motionDetector)
 				case .order:
 					OrderingView(self).environment(\.managedObjectContext, dataController.container.viewContext)
+                case .calibration:
+                    CalibrationView(parent: self).environmentObject(motionDetector)
 				}
 			}
 		}
